@@ -1,27 +1,67 @@
-" Original by Douglas Black
+set nocompatible			" be iMproved, required
+filetype on 				" without this vim emits a zero exit status, later, because of :ft off
+filetype off
+
+" Plugins {{{
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'kien/ctrlp.vim'
+Plugin 'rking/ag.vim'
+Plugin 'Solarized'
+Plugin 'Rainbow-Parenthesis'
+Plugin 'pangloss/vim-javascript'
+Plugin 'ervandew/supertab'
+Plugin 'groenewege/vim-less'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'bling/vim-airline'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tpope/vim-repeat'
+
+call vundle#end()
+
+" ensure ftdetect et al work by including this after the Vundle stuff
+filetype plugin indent on
+
+" }}}
 " Colors {{{
+
 syntax enable           " enable syntax processing
-colorscheme badwolf
+colorscheme Solarized
+
 " }}}
 " Misc {{{
+
 set ttyfast             " faster redraw
 set backspace=indent,eol,start
 set hidden				" hides buffers instead of closing them
 set history=1000        " remember more commands and search history
 set undolevels=1000     " use many muchos levels of undo
-set undofile			" Contains undo information so you can undo previous actions even after you close and reopen a file.
+"set undofile			" Contains undo information so you can undo previous actions even after you close and reopen a file.
+
 " }}}
 " Spaces & Tabs {{{
+
 set tabstop=4           " 4 space tab
-set expandtab           " use spaces for tabs
 set softtabstop=4       " 4 space tab
+set expandtab           " use spaces for tabs
 set shiftwidth=4
 set modelines=1
 filetype indent on
 filetype plugin on
 set autoindent
+
 " }}}
 " UI Layout {{{
+
 set number              " show line numbers
 set showcmd             " show command in bottom bar
 set ruler				" show the cursor position all the time
@@ -31,8 +71,49 @@ set wildmenu
 set showmatch           " higlight matching parenthesis
 set list				" show invisible chars
 set listchars=tab:?\ ,eol:¬ " map invisible chars
+
+set mouse=a				" enable mouse (for scrolling)
+if !has("gui_running") 	" let mouse wheel scroll file contents
+    set term=xterm
+    set mouse=a
+    set nocompatible
+    inoremap <Esc>[62~ <C-X><C-E>
+    inoremap <Esc>[63~ <C-X><C-Y>
+    nnoremap <Esc>[62~ <C-E>
+    nnoremap <Esc>[63~ <C-Y>
+endif
+
+if has('gui_running')
+	set guioptions-=m  "remove menu bar
+	set guioptions-=T  "remove toolbar
+	set guioptions-=r  "remove right-hand scroll bar
+	set guioptions-=L  "remove left-hand scroll bar
+  set lines=60 columns=108 linespace=0
+  if has('gui_win32')
+    set guifont=Consolas:h12:cANSI
+  else
+    set guifont=Courier\ Sans\ Mono\ 10
+  endif
+endif
+
+set background=dark
+if has('gui_running')
+  let g:solarized_termcolors=256
+else
+  let g:solarized_termcolors=16
+endif
+
+if !has("gui_running")
+	set term=xterm
+	set t_Co=256
+	let &t_AB="\e[48;5;%dm"
+	let &t_AF="\e[38;5;%dm"
+	syntax on
+endif
+
 " }}}
 " Searching {{{
+
 nnoremap / /\v
 vnoremap / /\v
 set ignorecase
@@ -44,22 +125,32 @@ set hlsearch
 nnoremap <leader><space> :noh<cr>
 nnoremap <tab> %
 vnoremap <tab> %
+
 " }}}
 " Folding {{{
-"=== folding ===
+
 set foldmethod=indent   " fold based on indent level
 set foldnestmax=10      " max 10 depth
 set foldenable          " don't fold files by default on open
-nnoremap <space> za
 set foldlevelstart=10   " start with fold level of 1
+nnoremap <space> za
+
 " }}}
 " Line Shortcuts {{{
-set mouse=a				" enable mouse (for scrolling)
-" Get off my lawn
+
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
+
+" Use CTRL-S for saving, also in Insert mode
+noremap <C-S> :update!<CR><Esc>
+vnoremap <C-S> <C-C>:update!<CR><Esc>
+inoremap <C-S> <C-O>:update!<CR><Esc>
+
+" Switch to alternate file
+map <C-Tab> :bn<cr>
+map <C-S-Tab> :bp<cr>
 
 nnoremap j gj
 nnoremap k gk
@@ -103,7 +194,7 @@ nnoremap Ö ;
 nnoremap ä '
 nnoremap Ä "
 nnoremap ' \
-nnoremap * |
+"nnoremap * | " Causes no mapping found error
 nnoremap å [
 nnoremap Å {
 nnoremap ¨ ]
@@ -116,8 +207,10 @@ inoremap ö [
 inoremap Ö {
 inoremap ä ]
 inoremap Ä }
+
 " }}}
 " Leader Shortcuts {{{
+
 let mapleader=","
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 nnoremap <leader>w :NERDTree<CR>
@@ -142,8 +235,10 @@ nnoremap <leader>v V`] "reselect the text just pasted
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 "inoremap jk <esc>
+
 " }}}
 " Powerline {{{
+
 "set encoding=utf-8
 "python from powerline.vim import setup as powerline_setup
 "python powerline_setup()
@@ -157,6 +252,7 @@ vmap <C-v> <Plug>(expand_region_shrink)
 "set laststatus=2
 " }}}
 " Airline {{{
+
 let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 
@@ -179,28 +275,38 @@ let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 
 " }}}
 " CtrlP {{{
+
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
+
 " }}}
 " NERDTree {{{
+
 let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
+let NERDTreeShowHidden=1
 " Toggle nerdtree with F10
-map <F10> :NERDTreeToggle<CR>
+noremap <F10> :NERDTreeToggle<CR>
+noremap <F11> :NERDTreeToggle<CR>
 " Current file in nerdtree
-map <F9> :NERDTreeFind<CR>
+noremap <F9> :NERDTreeFind<CR>
+
 " }}}
 " Syntastic {{{
+
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_ignore_files = ['.java$']
+
 " }}}
 " Launch Config {{{
+
 "runtime! debian.vim
-set nocompatible
 "call pathogen#infect()
+
 " }}}
 "" Tmux {{{
+
 "if exists('$TMUX') " allows cursor change in tmux mode
 "    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 "    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -208,12 +314,16 @@ set nocompatible
 "    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 "    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "endif
+
 "" }}}
 " MacVim {{{
+
 set guioptions-=r 
 set guioptions-=L
+
 " }}}
 " AutoGroups {{{
+
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
@@ -225,13 +335,16 @@ augroup configgroup
     autocmd BufEnter *.sh setlocal shiftwidth=2
     autocmd BufEnter *.sh setlocal softtabstop=2
 augroup END
+
 " }}}
 " Backups {{{
+
 set backup 
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
 set backupskip=/tmp/*,/private/tmp/* 
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+set directory=.,$TEMP
 set writebackup
+
 " }}}
 " Custom Functions {{{
 
@@ -339,6 +452,7 @@ function! s:NextTextObject(motion, dir)
  
   exe "normal! ".a:dir.c."v".a:motion.c
 endfunction
+
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0

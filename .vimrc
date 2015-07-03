@@ -213,13 +213,12 @@ inoremap Ä }
 
 let mapleader=","
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
-nnoremap <leader>w :NERDTree<CR>
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>h :A<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>ez :vsp ~/.zshrc<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
-nnoremap <leader>l :call ToggleNumber()<CR>
+nnoremap <leader>t :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>s :mksession<CR>
 nnoremap <leader>a :Ag 
@@ -234,22 +233,7 @@ nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR> "sort CSS
 nnoremap <leader>v V`] "reselect the text just pasted
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
-"inoremap jk <esc>
 
-" }}}
-" Powerline {{{
-
-"set encoding=utf-8
-"python from powerline.vim import setup as powerline_setup
-"python powerline_setup()
-"python del powerline_setup
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-"let g:airline_left_sep = ''
-"let g:airline_left_alt_sep = ''
-"let g:airline_right_sep = ''
-"let g:airline_right_alt_sep = ''
-"set laststatus=2
 " }}}
 " Airline {{{
 
@@ -268,7 +252,7 @@ let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
-" nmap <leader>bq :bp <BAR> bd #<CR>
+" nmap <leader>w :bp <BAR> bd #<CR>
 
 " Show all open buffers and their status
 " nmap <leader>bl :ls<CR>
@@ -288,7 +272,7 @@ let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'do
 let NERDTreeShowHidden=1
 " Toggle nerdtree with F10
 noremap <F10> :NERDTreeToggle<CR>
-noremap <F11> :NERDTreeToggle<CR>
+noremap <F11> :NERDTree<CR>
 " Current file in nerdtree
 noremap <F9> :NERDTreeFind<CR>
 

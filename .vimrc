@@ -128,10 +128,9 @@ vnoremap <tab> %
 " }}}
 " Folding {{{
 
-set foldmethod=indent   		" fold based on indent level
-set foldnestmax=10      		" max 10 depth
-set foldenable          		" don't fold files by default on open
-set foldlevelstart=10   		" start with fold level of 1
+set foldmethod=marker
+set foldlevel=0
+set modelines=1
 nnoremap <space> za
 
 " }}}
@@ -146,10 +145,6 @@ nnoremap <Down> :echoe "Use j"<CR>
 noremap <C-S> :update!<CR><Esc>
 vnoremap <C-S> <C-C>:update!<CR><Esc>
 inoremap <C-S> <C-O>:update!<CR><Esc>
-
-" Switch to alternate file
-map <C-Tab> :bn<cr>
-map <C-S-Tab> :bp<cr>
 
 nnoremap j gj
 nnoremap k gk
@@ -241,20 +236,20 @@ let g:airline#extensions#tabline#fnamemod = ':t' 	" Show just the filename
 
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping
-nmap <leader>T :enew<cr>
+nnoremap <leader>T :enew<cr>
 
 " Move to the next buffer
-nmap <leader>l :bnext<CR>
+nnoremap <leader>l :bnext<CR>
 
 " Move to the previous buffer
-nmap <leader>h :bprevious<CR>
+nnoremap <leader>h :bprevious<CR>
 
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
-nmap <leader>w :bp <BAR> bd #<CR>
+nnoremap <leader>w :bp <BAR> bd #<CR>
 
 " Show all open buffers and their status
-nmap <leader>bl :ls<CR>
+nnoremap <leader>bl :ls<CR>
 
 " }}}
 " CtrlP {{{
@@ -437,3 +432,5 @@ function! s:NextTextObject(motion, dir)
 endfunction
 
 " }}}
+
+" vim:foldmethod=marker:foldlevel=0

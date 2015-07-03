@@ -1,5 +1,5 @@
-set nocompatible			" be iMproved, required
-filetype on 				" without this vim emits a zero exit status, later, because of :ft off
+set nocompatible				" be iMproved, required
+filetype on 					" without this vim emits a zero exit status, later, because of :ft off
 filetype off
 
 " Plugins {{{
@@ -28,31 +28,30 @@ Plugin 'tpope/vim-repeat'
 
 call vundle#end()
 
-" ensure ftdetect et al work by including this after the Vundle stuff
-filetype plugin indent on
+filetype plugin indent on 		" ensure ftdetect et al work by including this after the Vundle stuff
 
 " }}}
 " Colors {{{
 
-syntax enable           " enable syntax processing
+syntax enable           		" enable syntax processing
 colorscheme Solarized
 
 " }}}
 " Misc {{{
 
-set ttyfast             " faster redraw
+set ttyfast            			" faster redraw
 set backspace=indent,eol,start
-set hidden				" hides buffers instead of closing them
-set history=1000        " remember more commands and search history
-set undolevels=1000     " use many muchos levels of undo
-"set undofile			" Contains undo information so you can undo previous actions even after you close and reopen a file.
+set hidden						" hides buffers instead of closing them
+set history=1000        		" remember more commands and search history
+set undolevels=1000     		" use many muchos levels of undo
+"set undofile					" Contains undo information so you can undo previous actions even after you close and reopen a file.
 
 " }}}
 " Spaces & Tabs {{{
 
-set tabstop=4           " 4 space tab
-set softtabstop=4       " 4 space tab
-set expandtab           " use spaces for tabs
+set tabstop=4           		" 4 space tab
+set softtabstop=4       		" 4 space tab
+set expandtab           		" use spaces for tabs
 set shiftwidth=4
 set modelines=1
 filetype indent on
@@ -62,18 +61,18 @@ set autoindent
 " }}}
 " UI Layout {{{
 
-set number              " show line numbers
-set showcmd             " show command in bottom bar
-set ruler				" show the cursor position all the time
-set nocursorline        " highlight current line
+set number              		" show line numbers
+set showcmd             		" show command in bottom bar
+set ruler						" show the cursor position all the time
+set nocursorline        		" highlight current line
 set wildmenu
 "set lazyredraw
-set showmatch           " higlight matching parenthesis
-set list				" show invisible chars
-set listchars=tab:?\ ,eol:¬ " map invisible chars
+set showmatch           		" higlight matching parenthesis
+set list						" show invisible chars
+set listchars=tab:?\ ,eol:¬ 	" map invisible chars
 
-set mouse=a				" enable mouse (for scrolling)
-if !has("gui_running") 	" let mouse wheel scroll file contents
+set mouse=a						" enable mouse (for scrolling)
+if !has("gui_running") 			" let mouse wheel scroll file contents
     set term=xterm
     set mouse=a
     set nocompatible
@@ -84,10 +83,10 @@ if !has("gui_running") 	" let mouse wheel scroll file contents
 endif
 
 if has('gui_running')
-	set guioptions-=m  "remove menu bar
-	set guioptions-=T  "remove toolbar
-	set guioptions-=r  "remove right-hand scroll bar
-	set guioptions-=L  "remove left-hand scroll bar
+	set guioptions-=m  		"remove menu bar
+	set guioptions-=T  		"remove toolbar
+	set guioptions-=r  		"remove right-hand scroll bar
+	set guioptions-=L  		"remove left-hand scroll bar
   set lines=60 columns=108 linespace=0
   if has('gui_win32')
     set guifont=Consolas:h12:cANSI
@@ -129,10 +128,10 @@ vnoremap <tab> %
 " }}}
 " Folding {{{
 
-set foldmethod=indent   " fold based on indent level
-set foldnestmax=10      " max 10 depth
-set foldenable          " don't fold files by default on open
-set foldlevelstart=10   " start with fold level of 1
+set foldmethod=indent   		" fold based on indent level
+set foldnestmax=10      		" max 10 depth
+set foldenable          		" don't fold files by default on open
+set foldlevelstart=10   		" start with fold level of 1
 nnoremap <space> za
 
 " }}}
@@ -194,7 +193,7 @@ nnoremap Ö ;
 nnoremap ä '
 nnoremap Ä "
 nnoremap ' \
-"nnoremap * | " Causes no mapping found error
+"nnoremap * | 	" Causes no mapping found error
 nnoremap å [
 nnoremap Å {
 nnoremap ¨ ]
@@ -237,25 +236,25 @@ vmap <C-v> <Plug>(expand_region_shrink)
 " }}}
 " Airline {{{
 
-let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+let g:airline#extensions#tabline#enabled = 1 		" Enable the list of buffers
+let g:airline#extensions#tabline#fnamemod = ':t' 	" Show just the filename
 
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping
-" nmap <leader>T :enew<cr>
+nmap <leader>T :enew<cr>
 
 " Move to the next buffer
-" nmap <leader>l :bnext<CR>
+nmap <leader>l :bnext<CR>
 
 " Move to the previous buffer
-" nmap <leader>h :bprevious<CR>
+nmap <leader>h :bprevious<CR>
 
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
-" nmap <leader>w :bp <BAR> bd #<CR>
+nmap <leader>w :bp <BAR> bd #<CR>
 
 " Show all open buffers and their status
-" nmap <leader>bl :ls<CR>
+nmap <leader>bl :ls<CR>
 
 " }}}
 " CtrlP {{{
@@ -438,5 +437,3 @@ function! s:NextTextObject(motion, dir)
 endfunction
 
 " }}}
-
-" vim:foldmethod=marker:foldlevel=0

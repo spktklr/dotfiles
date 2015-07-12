@@ -242,8 +242,18 @@ nnoremap <leader>v V`] "reselect the text just pasted
 " }}}
 " Airline {{{
 
+set laststatus=2
+set ttimeoutlen=50
 let g:airline#extensions#tabline#enabled = 1 		" Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' 	" Show just the filename
+"let g:airline_symbols = {}
+"let g:airline_left_sep = "\u2b80" "use double quotes here
+"let g:airline_left_alt_sep = "\u2b81"
+"let g:airline_right_sep = "\u2b82"
+"let g:airline_right_alt_sep = "\u2b83"
+"let g:airline_symbols.branch = "\u2b60"
+"let g:airline_symbols.readonly = "\u2b64"
+"let g:airline_symbols.linenr = "\u2b61"
 
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping

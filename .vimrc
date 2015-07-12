@@ -25,6 +25,10 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'bling/vim-airline'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'tpope/vim-repeat'
+Plugin 'terryma/vim-expand-region'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'Valloric/MatchTagAlways'
+Plugin 'wikitopian/hardmode'
 
 call vundle#end()
 
@@ -89,6 +93,7 @@ if has('gui_running')
 	set guioptions-=L  		"remove left-hand scroll bar
   set lines=60 columns=108 linespace=0
   if has('gui_win32')
+    "set encoding=utf-8
     set guifont=Consolas:h12:cANSI
   else
     set guifont=Courier\ Sans\ Mono\ 10
@@ -146,6 +151,13 @@ noremap <C-S> :update!<CR><Esc>
 vnoremap <C-S> <C-C>:update!<CR><Esc>
 inoremap <C-S> <C-O>:update!<CR><Esc>
 
+" Copy & Paste from clipboard
+vnoremap <C-c> "*y
+nnoremap <C-v> "*p
+
+" Undo
+noremap <C-z> :u<cr>
+
 nnoremap j gj
 nnoremap k gk
 nnoremap B ^
@@ -201,6 +213,7 @@ inoremap ö [
 inoremap Ö {
 inoremap ä ]
 inoremap Ä }
+vnoremap ö :
 
 " }}}
 " Leader Shortcuts {{{
@@ -225,8 +238,6 @@ vnoremap <leader>y "+y
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR> "strip all trailing whitespace
 nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR> "sort CSS
 nnoremap <leader>v V`] "reselect the text just pasted
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
 
 " }}}
 " Airline {{{
@@ -259,6 +270,15 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
 
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
 " }}}
 " NERDTree {{{
 
@@ -269,6 +289,11 @@ noremap <F10> :NERDTreeToggle<CR>
 noremap <F11> :NERDTree<CR>
 " Current file in nerdtree
 noremap <F9> :NERDTreeFind<CR>
+
+" }}}
+" Mustache-Handlebars {{{
+
+let g:mustache_abbreviations = 1
 
 " }}}
 " Syntastic {{{

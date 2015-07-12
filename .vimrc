@@ -1,4 +1,4 @@
-ï»¿set nocompatible				" be iMproved, required
+set nocompatible				" be iMproved, required
 filetype on 					" without this vim emits a zero exit status, later, because of :ft off
 filetype off
 
@@ -73,7 +73,7 @@ set wildmenu
 "set lazyredraw
 set showmatch           		" higlight matching parenthesis
 set list						" show invisible chars
-set listchars=tab:?\ ,eol:Â¬ 	" map invisible chars
+set listchars=tab:?\ ,eol:¬ 	" map invisible chars
 
 set mouse=a						" enable mouse (for scrolling)
 if !has("gui_running") 			" let mouse wheel scroll file contents
@@ -93,7 +93,7 @@ if has('gui_running')
 	set guioptions-=L  		"remove left-hand scroll bar
   set lines=60 columns=108 linespace=0
   if has('gui_win32')
-    set encoding=utf-8
+    "set encoding=utf-8
     set guifont=Powerline_Consolas:h11
   else
     set guifont=Courier\ Sans\ Mono\ 10
@@ -182,10 +182,10 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Edit scandi layout
-nnoremap Â§ ~
-nnoremap Â½ `
+nnoremap § ~
+nnoremap ½ `
 nnoremap " @
-nnoremap Â¤ $
+nnoremap ¤ $
 nnoremap & ^
 nnoremap / &
 nnoremap ( *
@@ -193,27 +193,27 @@ nnoremap ) (
 nnoremap = )
 nnoremap + -
 nnoremap ? _
-nnoremap Â´ =
+nnoremap ´ =
 nnoremap ` +
-nnoremap Ã¶ :
-nnoremap Ã– ;
-nnoremap Ã¤ '
-nnoremap Ã„ "
+nnoremap ö :
+nnoremap Ö ;
+nnoremap ä '
+nnoremap Ä "
 nnoremap ' \
 "nnoremap * | 	" Causes no mapping found error
-nnoremap Ã¥ [
-nnoremap Ã… {
-nnoremap Â¨ ]
+nnoremap å [
+nnoremap Å {
+nnoremap ¨ ]
 nnoremap ^ }
 nnoremap ; <
 nnoremap : >
 nnoremap - /
 nnoremap _ ?
-inoremap Ã¶ [
-inoremap Ã– {
-inoremap Ã¤ ]
-inoremap Ã„ }
-vnoremap Ã¶ :
+inoremap ö :
+inoremap Ö {
+inoremap ä ]
+inoremap Ä }
+vnoremap ö :
 
 " }}}
 " Leader Shortcuts {{{
@@ -247,43 +247,40 @@ set ttimeoutlen=50
 let g:airline#extensions#tabline#enabled = 1 		" Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' 	" Show just the filename
 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-let g:airline_left_sep = "\u2b80" "use double quotes here
-let g:airline_left_alt_sep = "\u2b81"
-let g:airline_right_sep = "\u2b82"
-let g:airline_right_alt_sep = "\u2b83"
-let g:airline_symbols.branch = "\u2b60"
-let g:airline_symbols.readonly = "\u2b64"
-let g:airline_symbols.linenr = "\u2b61"
-
 "if !exists('g:airline_symbols')
   "let g:airline_symbols = {}
 "endif
-" powerline symbols
-"let g:airline_left_sep = 'î‚°'
-"let g:airline_left_alt_sep = 'î‚±'
-"let g:airline_right_sep = 'î‚²'
-"let g:airline_right_alt_sep = 'î‚³'
-"let g:airline_symbols.branch = 'î‚ '
-"let g:airline_symbols.readonly = 'î‚¢'
-"let g:airline_symbols.linenr = 'î‚¡'
 
-"let g:airline_left_sep = 'Â»'
-"let g:airline_left_sep = 'â–¶'
-"let g:airline_right_sep = 'Â«'
-"let g:airline_right_sep = 'â—€'
-"let g:airline_symbols.crypt = 'ğŸ”’'
-"let g:airline_symbols.linenr = 'âŠ'
-"let g:airline_symbols.linenr = 'â¤'
-"let g:airline_symbols.linenr = 'Â¶'
-"let g:airline_symbols.branch = 'â‡'
-"let g:airline_symbols.paste = 'Ï'
-"let g:airline_symbols.paste = 'Ã'
-"let g:airline_symbols.paste = 'âˆ¥'
-"let g:airline_symbols.whitespace = 'Î'
+"let g:airline_left_sep = "\u2b80" "use double quotes here
+"let g:airline_left_alt_sep = "\u2b81"
+"let g:airline_right_sep = "\u2b82"
+"let g:airline_right_alt_sep = "\u2b83"
+"let g:airline_symbols.branch = "\u2b60"
+"let g:airline_symbols.readonly = "\u2b64"
+"let g:airline_symbols.linenr = "\u2b61"
+
+" powerline symbols
+"let g:airline_left_sep = '?'
+"let g:airline_left_alt_sep = '?'
+"let g:airline_right_sep = '?'
+"let g:airline_right_alt_sep = '?'
+"let g:airline_symbols.branch = '?'
+"let g:airline_symbols.readonly = '?'
+"let g:airline_symbols.linenr = '?'
+
+"let g:airline_left_sep = '»'
+"let g:airline_left_sep = '?'
+"let g:airline_right_sep = '«'
+"let g:airline_right_sep = '?'
+"let g:airline_symbols.crypt = '??'
+"let g:airline_symbols.linenr = '?'
+"let g:airline_symbols.linenr = '?'
+"let g:airline_symbols.linenr = '¶'
+"let g:airline_symbols.branch = '?'
+"let g:airline_symbols.paste = '?'
+"let g:airline_symbols.paste = 'Ş'
+"let g:airline_symbols.paste = '?'
+"let g:airline_symbols.whitespace = '?'
 
 " To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping

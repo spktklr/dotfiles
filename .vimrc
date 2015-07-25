@@ -29,6 +29,12 @@ Plugin 'terryma/vim-expand-region'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'wikitopian/hardmode'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'csscomb/vim-csscomb'
 
 call vundle#end()
 
@@ -48,6 +54,8 @@ set backspace=indent,eol,start
 set hidden						" hides buffers instead of closing them
 set history=1000        		" remember more commands and search history
 set undolevels=1000     		" use many muchos levels of undo
+set noswapfile
+set linebreak
 "set undofile					" Contains undo information so you can undo previous actions even after you close and reopen a file.
 
 " }}}
@@ -146,6 +154,10 @@ nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
+nnoremap <Tab> >>
+nnoremap <s-Tab> <<
+vnoremap <tab> >
+
 " Use CTRL-S for saving, also in Insert mode
 noremap <C-S> :update!<CR><Esc>
 vnoremap <C-S> <C-C>:update!<CR><Esc>
@@ -169,7 +181,7 @@ onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
 xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
 onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
 xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
- 
+
 onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
 xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
 onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
@@ -228,10 +240,10 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>t :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>s :mksession<CR>
-nnoremap <leader>a :Ag 
+nnoremap <leader>a :Ag
 nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 nnoremap <leader>1 :set number!<CR>
-nnoremap <leader>d :Make! 
+nnoremap <leader>d :Make!
 nnoremap <leader>r :call RunTestFile()<CR>
 nnoremap <leader>g :call RunGoFile()<CR>
 vnoremap <leader>y "+y
@@ -246,6 +258,11 @@ set laststatus=2
 set ttimeoutlen=50
 let g:airline#extensions#tabline#enabled = 1 		" Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' 	" Show just the filename
+"let g:airline_powerline_fonts = 1
+
+" Don't show seperators
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 
 "if !exists('g:airline_symbols')
   "let g:airline_symbols = {}
@@ -305,8 +322,9 @@ nnoremap <leader>bl :ls<CR>
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
-
+"let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
+"let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|*vendor\|git|\.(o|swp|pyc|egg)$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|vendor|DS_Store|target)|(\.(swp|ico|git|svn))$'
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 vmap <Leader>y "+y
@@ -345,6 +363,24 @@ let g:syntastic_ignore_files = ['.java$']
 "call pathogen#infect()
 
 " }}}
+" CSSComb {{{
+
+" Map bc to run CSScomb. bc stands for beautify css
+autocmd FileType css,scss,less noremap <buffer> <leader>bc :CSScomb<CR>
+noremap <leader>bc :CSScomb<CR>
+" Automatically comb your CSS on save
+autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :CSScomb<CR>
+
+" }}}
+" Easy-Align {{{
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" }}}
 "" Tmux {{{
 
 "if exists('$TMUX') " allows cursor change in tmux mode
@@ -358,7 +394,7 @@ let g:syntastic_ignore_files = ['.java$']
 "" }}}
 " MacVim {{{
 
-set guioptions-=r 
+set guioptions-=r
 set guioptions-=L
 
 " }}}
@@ -379,9 +415,9 @@ augroup END
 " }}}
 " Backups {{{
 
-set backup 
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
-set backupskip=/tmp/*,/private/tmp/* 
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
 set directory=.,$TEMP
 set writebackup
 
@@ -478,10 +514,10 @@ function! <SID>CleanFile()
     let @/=_s
     call cursor(l, c)
 endfunction
- 
+
 function! s:NextTextObject(motion, dir)
   let c = nr2char(getchar())
- 
+
   if c ==# "b"
       let c = "("
   elseif c ==# "B"
@@ -489,8 +525,8 @@ function! s:NextTextObject(motion, dir)
   elseif c ==# "r"
       let c = "["
   endif
- 
-  exe "normal! ".a:dir.c."v".a:motion.c
+
+  exe "np all trailing whitespaceormal! ".a:dir.c."v".a:motion.c
 endfunction
 
 " }}}

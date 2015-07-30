@@ -7,34 +7,34 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-surround'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'kien/ctrlp.vim'
-Plugin 'rking/ag.vim'
-Plugin 'Solarized'
-Plugin 'Rainbow-Parenthesis'
-Plugin 'pangloss/vim-javascript'
-Plugin 'ervandew/supertab'
-Plugin 'groenewege/vim-less'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'bling/vim-airline'
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'tpope/vim-repeat'
-Plugin 'terryma/vim-expand-region'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'Valloric/MatchTagAlways'
-Plugin 'wikitopian/hardmode'
 Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
+Plugin 'Rainbow-Parenthesis'
+Plugin 'Solarized'
+Plugin 'Valloric/MatchTagAlways'
+Plugin 'bling/vim-airline'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'csscomb/vim-csscomb'
+Plugin 'ervandew/supertab'
 Plugin 'garbas/vim-snipmate'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'groenewege/vim-less'
 Plugin 'honza/vim-snippets'
 Plugin 'junegunn/vim-easy-align'
-Plugin 'csscomb/vim-csscomb'
+Plugin 'kien/ctrlp.vim'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'pangloss/vim-javascript'
+Plugin 'rking/ag.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'terryma/vim-expand-region'
+Plugin 'tomtom/tlib_vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'wikitopian/hardmode'
 
 call vundle#end()
 
@@ -137,6 +137,7 @@ set hlsearch
 nnoremap <leader><space> :noh<cr>
 nnoremap <tab> %
 vnoremap <tab> %
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 " }}}
 " Folding {{{
@@ -170,6 +171,10 @@ nnoremap <C-v> "*p
 " Undo
 noremap <C-z> :u<cr>
 
+" Insert rows without insert mode
+nmap <S-Enter> O<Esc>j
+nmap <CR> o<Esc>k
+
 nnoremap j gj
 nnoremap k gk
 nnoremap B ^
@@ -197,7 +202,7 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap § ~
 nnoremap ½ `
 nnoremap " @
-nnoremap ¤ $
+noremap ¤ $
 nnoremap & ^
 nnoremap / &
 nnoremap ( *
@@ -233,6 +238,7 @@ vnoremap ö :
 let mapleader=","
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 nnoremap <leader>u :GundoToggle<CR>
+vnoremap <leader>u :sort u<CR>
 nnoremap <leader>h :A<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>ez :vsp ~/.zshrc<CR>
@@ -250,6 +256,11 @@ vnoremap <leader>y "+y
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR> "strip all trailing whitespace
 nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR> "sort CSS
 nnoremap <leader>v V`] "reselect the text just pasted
+nnoremap <leader>q :q<CR>
+" Re-indents buffer.
+nnoremap <silent> <Leader>i :call Preserve("normal! gg=G")<CR>
+" Removes all trailing whitespace in buffer.
+nnoremap <silent> <Leader>o :call Preserve("%s/\\s\\+$//e")<CR>
 
 " }}}
 " Airline {{{
@@ -513,6 +524,37 @@ function! <SID>CleanFile()
     " Clean up: restore previous search history, and cursor position
     let @/=_s
     call cursor(l, c)
+endfunction
+
+" indents file
+function! IndentFile()
+    let l:winview = winsaveview()
+    exec "normal gg=G"
+    call winrestview(l:winview)
+endfunction
+
+" A wrapper function to restore the cursor position, window position,
+" and last search after running a command.
+function! Preserve(command)
+  " Save the last search
+  let last_search=@/
+  " Save the current cursor position
+  let save_cursor = getpos(".")
+  " Save the window position
+  normal H
+  let save_window = getpos(".")
+  call setpos('.', save_cursor)
+
+  " Do the business:
+  execute a:command
+
+  " Restore the last_search
+  let @/=last_search
+  " Restore the window position
+  call setpos('.', save_window)
+  normal zt
+  " Restore the cursor position
+  call setpos('.', save_cursor)
 endfunction
 
 function! s:NextTextObject(motion, dir)

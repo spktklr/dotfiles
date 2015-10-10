@@ -7,10 +7,12 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+Plugin 'Solarized' "color scheme
+Plugin 'inkpot' "color scheme
+Plugin 'ratazzi/blackboard.vim' "color scheme
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Rainbow-Parenthesis'
-Plugin 'Solarized'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'bling/vim-airline'
 Plugin 'cakebaker/scss-syntax.vim'
@@ -22,9 +24,11 @@ Plugin 'groenewege/vim-less'
 Plugin 'honza/vim-snippets'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kien/ctrlp.vim'
+Plugin 'matchit.zip'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'pangloss/vim-javascript'
 Plugin 'rking/ag.vim'
+Plugin 'php.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
@@ -44,7 +48,7 @@ filetype plugin indent on 		" ensure ftdetect et al work by including this after
 " Colors {{{
 
 syntax enable           		" enable syntax processing
-colorscheme Solarized
+colorscheme blackboard
 
 " }}}
 " Misc {{{
@@ -102,7 +106,8 @@ if has('gui_running')
   set lines=60 columns=108 linespace=0
   if has('gui_win32')
     "set encoding=utf-8
-    set guifont=Powerline_Consolas:h11
+    "set guifont=Powerline_Consolas:h11
+    set guifont=Hack:h10
   else
     set guifont=Courier\ Sans\ Mono\ 10
   endif
@@ -348,7 +353,7 @@ vmap <Leader>P "+P
 " }}}
 " NERDTree {{{
 
-let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
+let NERDTreeIgnore = ['\.pyc$', 'venv', 'egg', 'egg-info/', 'dist']
 let NERDTreeShowHidden=1
 " Toggle nerdtree with F10
 noremap <F10> :NERDTreeToggle<CR>

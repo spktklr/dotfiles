@@ -7,28 +7,30 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'Solarized' "color scheme
-Plugin 'inkpot' "color scheme
-Plugin 'ratazzi/blackboard.vim' "color scheme
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Rainbow-Parenthesis'
+Plugin 'Solarized' "color scheme
+Plugin 'shawncplus/phpcomplete.vim'
+Plugin 'StanAngeloff/php.vim'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'bling/vim-airline'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'csscomb/vim-csscomb'
+Plugin 'dsawardekar/wordpress.vim'
 Plugin 'ervandew/supertab'
 Plugin 'garbas/vim-snipmate'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'groenewege/vim-less'
 Plugin 'honza/vim-snippets'
+Plugin 'inkpot' "color scheme
 Plugin 'junegunn/vim-easy-align'
 Plugin 'kien/ctrlp.vim'
 Plugin 'matchit.zip'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'pangloss/vim-javascript'
+Plugin 'ratazzi/blackboard.vim' "color scheme
 Plugin 'rking/ag.vim'
-Plugin 'php.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
@@ -37,6 +39,7 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'wikitopian/hardmode'
 
@@ -60,6 +63,10 @@ set history=1000        		" remember more commands and search history
 set undolevels=1000     		" use many muchos levels of undo
 set noswapfile
 set linebreak
+set scrolloff=5
+
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " do not comment new lines automatically
+
 "set undofile					" Contains undo information so you can undo previous actions even after you close and reopen a file.
 
 " }}}

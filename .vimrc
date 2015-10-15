@@ -1,8 +1,9 @@
 set nocompatible				" be iMproved, required
 filetype on 					" without this vim emits a zero exit status, later, because of :ft off
 filetype off
+Òlet $PATH = '/System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS:'.$PATH
 
-" Plugins {{{
+"Plugins {{{
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -114,9 +115,9 @@ if has('gui_running')
   if has('gui_win32')
     "set encoding=utf-8
     "set guifont=Powerline_Consolas:h11
-    set guifont=Hack:h10
+    set guifont=hack:h10
   else
-    set guifont=Courier\ Sans\ Mono\ 10
+    set guifont=Consolas:h14
   endif
 endif
 

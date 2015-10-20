@@ -78,9 +78,9 @@ echo ""
 echo "Never go into computer sleep mode"
 systemsetup -setcomputersleep Off > /dev/null
 
-echo ""
-echo "Check for software updates daily, not just once per week"
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+#echo ""
+#echo "Check for software updates daily, not just once per week"
+#defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
 echo ""
 echo "Disable smart quotes and smart dashes as theyâ€™re annoying when typing code"

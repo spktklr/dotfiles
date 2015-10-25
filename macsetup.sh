@@ -1,5 +1,5 @@
 # Let us not forget
-read -p "Did you do the steps in macsetup_readme?(y/n) " -n 1 -r
+read -p "Did you do the steps in readme?(y/n) " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then

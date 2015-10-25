@@ -1,3 +1,7 @@
+# TO DO
+- Use Brewfile instead of .sh
+- More detailed YouCompleteMe workflow
+
 open System Preferences, go to the App Store preference pane, and uncheck all the boxes.
 
 press shift-command-H and then command-J, which will bring up a window that configures Finder view options. Check the “Show Library Folder” and close the window. Thanks to the Apple engineers that made this process more user-friendly.

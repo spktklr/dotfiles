@@ -43,22 +43,22 @@ then
   brew linkapps
 
   binaries=(
-  cabextract
-  cmake
-  #graphicsmagick
-  #webkit2png
-  #rename
-  #zopfli
   #ffmpeg
-  python
+  #graphicsmagick
+  #hub
+  #node
+  #rename
   #sshfs
   #trash
-  #node
   #tree
+  #webkit2png
+  #zopfli
   ack
-  #hub
+  cabextract
+  cmake
   git
   mackup
+  python
   )
 
   echo "installing binaries..."
@@ -70,43 +70,44 @@ then
   brew install caskroom/cask/brew-cask
 
   apps=(
+  #appcleaner
+  #arq
+  #atom
+  #cloudup
+  #flash
+  #flux
+  #hazel
+  #karabiner
+  #mailbox
+  #nvalt
+  #qlcolorcode
+  #qlmarkdown
+  #qlprettypatch
+  #qlstephen
+  #quicklook-json
+  #screenflick
+  #seil
+  #shiori
+  #sketch
+  #spotify
+  #sublime-text3
+  #tower
+  #transmission
+  #transmit
   adobe-creative-cloud
   alfred
+  bettertouchtool
   dropbox
-  google-chrome
-  #qlcolorcode
-  #karabiner
-  #screenflick
-  slack
-  seil
-  #transmit
-  #appcleaner
   firefox
-  #hazel
-  #qlmarkdown
-  #seil
-  #spotify
+  google-chrome
+  iterm2
+  seil
+  skype
+  slack
   vagrant
   vagrant-manager
-  #arq
-  #flash
-  iterm2
-  #qlprettypatch
-  #shiori
-  #sublime-text3
   virtualbox
-  #atom
-  #flux
-  #mailbox
-  #qlstephen
-  #sketch
-  #tower
   vlc
-  #cloudup
-  #nvalt
-  #quicklook-json
-  skype
-  #transmission
   )
 
   # Install apps to /Applications
@@ -116,6 +117,9 @@ then
 
   # Link Alfred
   brew cask alfred link
+
+  # Unlink python
+  brew unlink python
 
   # Fonts
   brew tap caskroom/fonts

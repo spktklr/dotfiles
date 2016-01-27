@@ -181,7 +181,7 @@ linters:
 
     SpaceBeforeBrace:
             # enabled: true
-        style: 'new_line' or 'space'
+        style: 'new_line' # or 'space'
             # allow_single_line_padding: false
 
             # SpaceBetweenParens:

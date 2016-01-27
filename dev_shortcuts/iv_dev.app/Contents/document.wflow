@@ -51,7 +51,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>set PROJ_DIR to "~/Documents/sdp/"set PROJ_ENTRY to "htdocs/wp-content/themes/sdp/"activate application "iTerm"tell application "iTerm"	activate		set myterm to (make new terminal)	tell myterm				launch session "Git Session"				-- make the window position		tell i term application "System Events" to key code 124 using {command down, control down}				tell the last session			write text "cd " &amp; PROJ_DIR &amp; " &amp;&amp; git status"		end tell				launch session "Default Session"				tell the current session						write text "mvim " &amp; PROJ_DIR &amp; PROJ_ENTRY			write text "cd " &amp; PROJ_DIR &amp; " &amp;&amp; vagrant up"			write text "no"			write text "/usr/bin/open -a '/Applications/Google Chrome.app' 'http://sdp.dev/'"					end tell	end tellend tell</string>
+					<string>set VAGRANT_DIR to "~/Documents/iv/trellis/"set PROJ_DIR to "~/Documents/iv/iiurviio/"set PROJ_ENTRY to "web/app/themes/iv/"activate application "iTerm"tell application "iTerm"	activate		set myterm to (make new terminal)	tell myterm				launch session "Git Session"				-- make the window position		tell i term application "System Events" to key code 124 using {command down, control down}				tell the last session			write text "cd " &amp; PROJ_DIR &amp; PROJ_ENTRY &amp; " &amp;&amp; git status"			write text "gulp watch"		end tell				launch session "Default Session"				tell the current session						write text "mvim " &amp; PROJ_DIR &amp; PROJ_ENTRY			write text "cd " &amp; VAGRANT_DIR &amp; " &amp;&amp; vagrant up"			write text "/usr/bin/open -a '/Applications/Google Chrome.app' 'http://iiurviio.dev/'"					end tell	end tellend tell</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -105,7 +105,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>707.000000:858.000000</string>
+				<string>714.500000:316.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>

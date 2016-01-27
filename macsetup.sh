@@ -23,118 +23,138 @@ then
   # Update homebrew recipes
   brew update
 
-  # Install GNU core utilities (those that come with OS X are outdated)
-  brew install coreutils
+  # Install brew-file
+  brew install rcmdnk/file/brew-file
 
-  # Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
-  brew install findutils
+  # Install Dropbox
+  brew cask install dropbox
 
-  # Install Bash 4
-  brew install bash
+fi
 
-  # Install more recent versions of some OS X tools
-  brew tap homebrew/dupes
-  brew install homebrew/dupes/grep
+# Need brewfile from dropbox
+read -p "Sign in to Dropbox, then continue with y. (y/n) " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
 
-  #$PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+  export HOMEBREW_BREWFILE=~/Dropbox/dotfiles/Brewfile
 
-  # Vim
-  brew install macvim --with-override-system-vim
-  brew linkapps
+  brew file install
+  ## Install GNU core utilities (those that come with OS X are outdated)
+  #brew install coreutils
 
-  binaries=(
-  #ffmpeg
-  #graphicsmagick
-  #hub
-  #node
-  #rename
-  #sshfs
-  #trash
-  #tree
-  #webkit2png
-  #zopfli
-  ack
-  cabextract
-  cmake
-  git
-  mackup
-  python
-  )
+  ## Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
+  #brew install findutils
 
-  echo "installing binaries..."
-  brew install ${binaries[@]}
+  ## Install Bash 4
+  #brew install bash
 
-  brew cleanup
+  ## Install more recent versions of some OS X tools
+  #brew tap homebrew/dupes
+  #brew install homebrew/dupes/grep
 
-  # Apps
-  brew install caskroom/cask/brew-cask
+  ##$PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
 
-  apps=(
-  #appcleaner
-  #arq
-  #atom
-  #cloudup
-  #flash
-  #flux
-  #hazel
-  #karabiner
-  #mailbox
-  #nvalt
-  #qlcolorcode
-  #qlmarkdown
-  #qlprettypatch
-  #qlstephen
-  #quicklook-json
-  #screenflick
+  ## Vim
+  #brew install macvim --with-override-system-vim
+  #brew linkapps
+
+  #binaries=(
+  ##ffmpeg
+  ##graphicsmagick
+  ##hub
+  ##node
+  ##rename
+  ##sshfs
+  ##trash
+  ##tree
+  ##webkit2png
+  ##zopfli
+  #ack
+  #cabextract
+  #cmake
+  #git
+  #mackup
+  #python
+  #)
+
+  #echo "installing binaries..."
+  #brew install ${binaries[@]}
+
+  #brew cleanup
+
+  ## Apps
+  #brew install caskroom/cask/brew-cask
+
+  #apps=(
+  ##appcleaner
+  ##arq
+  ##atom
+  ##cloudup
+  ##flash
+  ##flux
+  ##hazel
+  ##karabiner
+  ##mailbox
+  ##nvalt
+  ##qlcolorcode
+  ##qlmarkdown
+  ##qlprettypatch
+  ##qlstephen
+  ##quicklook-json
+  ##screenflick
+  ##seil
+  ##shiori
+  ##sketch
+  ##spotify
+  ##sublime-text3
+  ##tower
+  ##transmission
+  ##transmit
+  #adobe-creative-cloud
+  #alfred
+  #bettertouchtool
+  #dropbox
+  #firefox
+  #google-chrome
+  #iterm2
   #seil
-  #shiori
-  #sketch
-  #spotify
-  #sublime-text3
-  #tower
-  #transmission
-  #transmit
-  adobe-creative-cloud
-  alfred
-  bettertouchtool
-  dropbox
-  firefox
-  google-chrome
-  iterm2
-  seil
-  skype
-  slack
-  vagrant
-  vagrant-manager
-  virtualbox
-  vlc
-  )
+  #skype
+  #slack
+  #vagrant
+  #vagrant-manager
+  #virtualbox
+  #vlc
+  #)
 
-  # Install apps to /Applications
-  # Default is: /Users/$user/Applications
-  echo "installing apps..."
-  brew cask install --appdir="/Applications" ${apps[@]}
+  ## Install apps to /Applications
+  ## Default is: /Users/$user/Applications
+  #echo "installing apps..."
+  #brew cask install --appdir="/Applications" ${apps[@]}
 
-  # Link Alfred
-  brew cask alfred link
+  ## Link Alfred
+  #brew cask alfred link
 
-  # Unlink python
-  brew unlink python
+  ## Unlink python
+  #brew unlink python
 
-  # Fonts
-  brew tap caskroom/fonts
+  ## Fonts
+  #brew tap caskroom/fonts
 
-  fonts=(
-  font-m-plus
-  font-clear-sans
-  font-roboto
-  font-source-code-pro
-  font-inconsolata
-  )
+  #fonts=(
+  #font-m-plus
+  #font-clear-sans
+  #font-roboto
+  #font-source-code-pro
+  #font-inconsolata
+  #)
 
-  # Install fonts
-  echo "Installing fonts..."
-  brew cask install ${fonts[@]}
+  ## Install fonts
+  #echo "Installing fonts..."
+  #brew cask install ${fonts[@]}
+  
+  # hide older system vim
+  sudo mv /usr/bin/vim /usr/bin/vim72
 
   # Setup
   sh "scripts/osx-for-hackers.sh"
@@ -151,6 +171,6 @@ then
   echo "Then login to Dropbox and run"
   echo "mackup restore"
   echo "Once restored, run"
-  echo "sh YouCompleteMe.sh"
+  echo "sh scripts/YouCompleteMe.sh"
 
 fi

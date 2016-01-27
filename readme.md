@@ -1,5 +1,4 @@
 # TO DO
-- Use Brewfile instead of .sh
 - More detailed YouCompleteMe workflow
 
 # DO
@@ -30,7 +29,5 @@ run the following command in the Terminal:
 xcode-select --install
 
 
-
-
-
-
+# DO MORE
+Run macsetup.sh

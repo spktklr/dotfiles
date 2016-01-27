@@ -1,4 +1,3 @@
-
 # tap repositories and their packages
 
 tap caskroom/cask
@@ -61,6 +60,7 @@ brew libpng
 brew libxml2
 brew libyaml
 brew mackup
+brew mercurial
 brew node
 brew openssl
 brew pcre
@@ -70,6 +70,7 @@ brew ruby
 brew sqlite
 brew the_silver_searcher
 brew unixodbc
+brew vim
 brew xz
 
 # App Store applications

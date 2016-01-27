@@ -31,3 +31,11 @@ xcode-select --install
 
 # DO MORE
 Run macsetup.sh
+
+Then, add following lines in you .bashrc or .zshrc to wrap brew command:
+```
+if [ -f $(brew --prefix)/etc/brew-wrap ];then
+  source $(brew --prefix)/etc/brew-wrap
+fi
+```
+

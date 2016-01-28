@@ -1,1 +1,0 @@
-/Applications/sdp_dev.app

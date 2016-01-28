@@ -23,6 +23,8 @@ cask vagrant
 cask virtualbox
 cask vlc
 cask vox
+cask clipmenu
+cask istat-menus
 
 tap caskroom/fonts
 cask font-clear-sans

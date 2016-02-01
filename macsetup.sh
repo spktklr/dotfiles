@@ -27,18 +27,21 @@ then
   brew install rcmdnk/file/brew-file
 
   # Install Dropbox
-  brew cask install dropbox
+  #brew cask install dropbox
 
-fi
+#fi
 
-# Need brewfile from dropbox
-read -p "Sign in to Dropbox, then continue with y. (y/n) " -n 1 -r
-echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
+## Need brewfile from dropbox
+#read -p "Sign in to Dropbox, then continue with y. (y/n) " -n 1 -r
+#echo    # (optional) move to a new line
+#if [[ $REPLY =~ ^[Yy]$ ]]
+#then
 
-  export HOMEBREW_BREWFILE=~/Dropbox/dotfiles/Brewfile
+  #export HOMEBREW_BREWFILE=~/Dropbox/dotfiles/Brewfile
 
+  # get Brewfile from GitHub
+  brew set_repo
+  spktklr/Brewfile
   brew file install
   ## Install GNU core utilities (those that come with OS X are outdated)
   #brew install coreutils

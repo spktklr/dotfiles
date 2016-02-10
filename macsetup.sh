@@ -4,6 +4,11 @@ echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
 
+  # Xcode stuff
+  xcode-select -install
+
+  sudo xcrun cc
+
   # Switch to z-shell
   curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
@@ -41,7 +46,7 @@ then
 
   # get Brewfile from GitHub
   brew set_repo
-  spktklr/Brewfile
+  https://github.com/spktklr/Brewfile
   brew file install
   ## Install GNU core utilities (those that come with OS X are outdated)
   #brew install coreutils

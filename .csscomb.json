@@ -12,7 +12,7 @@
     "eof-newline": true,
     "leading-zero": false,
     "quotes": "single",
-    "remove-empty-rulesets": true,
+    "remove-empty-rulesets": false,
     "space-after-colon": " ",
     "space-after-combinator": " ",
     "space-after-opening-brace": "\n",
@@ -95,9 +95,7 @@
             "list-style",
             "list-style-position",
             "list-style-type",
-            "list-style-image"
-        ],
-        [
+            "list-style-image",
             "content",
             "quotes",
             "counter-reset",

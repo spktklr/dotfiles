@@ -1,7 +1,7 @@
 set nocompatible				" be iMproved, required
+set encoding=utf-8
 filetype on 					" without this vim emits a zero exit status, later, because of :ft off
 filetype off
-Òlet $PATH = '/System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS:'.$PATH
 
 "Plugins {{{
 
@@ -10,38 +10,50 @@ call vundle#begin()
 
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'Rainbow-Parenthesis'
+Plugin 'Shutnik/jshint2.vim'
+Plugin 'SirVer/ultisnips'
 Plugin 'Solarized' "color scheme
-Plugin 'shawncplus/phpcomplete.vim'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'Valloric/MatchTagAlways'
-Plugin 'bling/vim-airline'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'csscomb/vim-csscomb'
+Plugin 'christoomey/vim-sort-motion'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'christoomey/vim-tmux-runner'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'dbakker/vim-projectroot'
 Plugin 'dsawardekar/wordpress.vim'
 Plugin 'ervandew/supertab'
-Plugin 'garbas/vim-snipmate'
 Plugin 'gmarik/Vundle.vim'
+Plugin 'greg-js/vim-react-es6-snippets'
 Plugin 'groenewege/vim-less'
 Plugin 'honza/vim-snippets'
 Plugin 'inkpot' "color scheme
+Plugin 'iovar/vim-csscomb'
+Plugin 'isRuslan/vim-es6'
+Plugin 'jiangmiao/auto-pairs'
 Plugin 'junegunn/vim-easy-align'
-Plugin 'kien/ctrlp.vim'
+Plugin 'justinj/vim-react-snippets'
+Plugin 'lisposter/vim-blackboard' "color scheme
+Plugin 'majutsushi/tagbar'
 Plugin 'matchit.zip'
 Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
-Plugin 'ratazzi/blackboard.vim' "color scheme
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
+Plugin 'shawncplus/phpcomplete.vim'
 Plugin 'terryma/vim-expand-region'
 Plugin 'tomtom/tlib_vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-airline/vim-airline'
 Plugin 'vim-ruby/vim-ruby'
+Plugin 'vim-scripts/open-browser.vim'
 Plugin 'wikitopian/hardmode'
 
 call vundle#end()
@@ -49,10 +61,37 @@ call vundle#end()
 filetype plugin indent on 		" ensure ftdetect et al work by including this after the Vundle stuff
 
 " }}}
+" AutoGroups {{{
+
+augroup configgroup
+    autocmd!
+    autocmd VimEnter * highlight clear SignColumn
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb :call <SID>StripTrailingWhitespaces()
+    autocmd BufEnter *.cls setlocal filetype=java
+    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+    autocmd BufEnter Makefile setlocal noexpandtab
+    autocmd BufEnter *.sh setlocal tabstop=2
+    autocmd BufEnter *.sh setlocal shiftwidth=2
+    autocmd BufEnter *.sh setlocal softtabstop=2
+augroup END
+
+" }}}
 " Colors {{{
 
 syntax enable           		" enable syntax processing
-colorscheme blackboard
+
+if !has("gui_running")
+    set term=xterm-256color
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
+    set t_Co=256
+    syntax on
+    colorscheme blackboard
+else
+    set background=dark
+    colorscheme blackboard
+endif
+
 
 " }}}
 " Misc {{{
@@ -65,8 +104,11 @@ set undolevels=1000     		" use many muchos levels of undo
 set noswapfile
 set linebreak
 set scrolloff=5
+set autochdir                   " auto cd to current file folder
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " do not comment new lines automatically
+
+au BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php files
 
 "set undofile					" Contains undo information so you can undo previous actions even after you close and reopen a file.
 
@@ -93,11 +135,11 @@ set wildmenu
 "set lazyredraw
 set showmatch           		" higlight matching parenthesis
 set list						" show invisible chars
-set listchars=tab:?\ ,eol:¬ 	" map invisible chars
+"set listchars=tab:?\ ,eol:Â¬ 	" map invisible chars
+set listchars=tab:\ \ ,trail:Â·,eol:Â¬,nbsp:_
 
 set mouse=a						" enable mouse (for scrolling)
 if !has("gui_running") 			" let mouse wheel scroll file contents
-    set term=xterm
     set mouse=a
     set nocompatible
     inoremap <Esc>[62~ <C-X><C-E>
@@ -107,33 +149,19 @@ if !has("gui_running") 			" let mouse wheel scroll file contents
 endif
 
 if has('gui_running')
-	set guioptions-=m  		"remove menu bar
-	set guioptions-=T  		"remove toolbar
-	set guioptions-=r  		"remove right-hand scroll bar
-	set guioptions-=L  		"remove left-hand scroll bar
-  set lines=60 columns=108 linespace=0
-  if has('gui_win32')
-    "set encoding=utf-8
-    "set guifont=Powerline_Consolas:h11
-    set guifont=hack:h10
-  else
-    set guifont=Consolas:h14
-  endif
-endif
-
-set background=dark
-if has('gui_running')
-  let g:solarized_termcolors=256
-else
-  let g:solarized_termcolors=16
-endif
-
-if !has("gui_running")
-	set term=xterm
-	set t_Co=256
-	let &t_AB="\e[48;5;%dm"
-	let &t_AF="\e[38;5;%dm"
-	syntax on
+    set guioptions-=m  		"remove menu bar
+    set guioptions-=T  		"remove toolbar
+    set guioptions-=r  		"remove right-hand scroll bar
+    set guioptions-=L  		"remove left-hand scroll bar
+    set lines=60 columns=108 linespace=0
+    if has('gui_win32')
+        "set encoding=utf-8
+        "set guifont=Powerline_Consolas:h11
+        set guifont=hack:h10
+    else
+        set encoding=utf-8
+        set guifont=Consolas:h14
+    endif
 endif
 
 " }}}
@@ -151,6 +179,8 @@ nnoremap <leader><space> :noh<cr>
 nnoremap <tab> %
 vnoremap <tab> %
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap - -
+vnoremap -- y/<C-R>"<CR>"
 
 " }}}
 " Folding {{{
@@ -179,12 +209,14 @@ inoremap <C-S> <C-O>:update!<CR><Esc>
 
 " Copy & Paste from clipboard
 vnoremap <C-c> "*y
-nnoremap <C-v> "*p
+nnoremap <C-v> :set paste<CR>"*p :set nopaste<CR>
+inoremap <C-v> <Esc>:set paste<CR>"*p:set nopaste<CR>i
 
 " Undo
 noremap <C-z> :u<cr>
 
 " Insert rows without insert mode
+nmap <C-Enter> O<Esc>j
 nmap <S-Enter> O<Esc>j
 nmap <CR> o<Esc>k
 
@@ -212,10 +244,11 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Edit scandi layout
-nnoremap § ~
-nnoremap ½ `
+nnoremap Â§ ~
+nnoremap Â½ `
 nnoremap " @
-noremap ¤ $
+noremap Â¤ $
+noremap â‚¬ $
 nnoremap & ^
 nnoremap / &
 nnoremap ( *
@@ -223,27 +256,27 @@ nnoremap ) (
 nnoremap = )
 nnoremap + -
 nnoremap ? _
-nnoremap ´ =
+nnoremap Â´ =
 nnoremap ` +
-nnoremap ö :
-nnoremap Ö ;
-nnoremap ä '
-nnoremap Ä "
+nnoremap Ã¶ :
+nnoremap Ã– ;
+nnoremap Ã¤ '
+nnoremap Ã„ "
 nnoremap ' \
 "nnoremap * | 	" Causes no mapping found error
-nnoremap å [
-nnoremap Å {
-nnoremap ¨ ]
+nnoremap Ã¥ [
+nnoremap Ã… {
+nnoremap Â¨ ]
 nnoremap ^ }
 nnoremap ; <
 nnoremap : >
 nnoremap - /
 nnoremap _ ?
-inoremap ö :
-inoremap Ö {
-inoremap ä ]
-inoremap Ä }
-vnoremap ö :
+inoremap Ã¶ :
+inoremap Ã– {
+inoremap Ã¤ ]
+inoremap Ã„ }
+vnoremap Ã¶ :
 
 " }}}
 " Leader Shortcuts {{{
@@ -267,13 +300,38 @@ nnoremap <leader>r :call RunTestFile()<CR>
 nnoremap <leader>g :call RunGoFile()<CR>
 vnoremap <leader>y "+y
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR> "strip all trailing whitespace
-nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR> "sort CSS
+"nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR> "sort CSS
 nnoremap <leader>v V`] "reselect the text just pasted
 nnoremap <leader>q :q<CR>
 " Re-indents buffer.
 nnoremap <silent> <Leader>i :call Preserve("normal! gg=G")<CR>
 " Removes all trailing whitespace in buffer.
 nnoremap <silent> <Leader>o :call Preserve("%s/\\s\\+$//e")<CR>
+" Sort SCSS
+"nnoremap <F7> :g#\({\n\)\@<=#.,/\.*[{}]\@=/-1 sort
+" Search the WP Codex with WordPress Vim
+nnoremap <leader>co :Wcodexsearch<CR>
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+" type :e and pre-populate with dir of current file
+nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
+" }}}
+" Ag {{{
+
+let g:ag_working_path_mode="r"
+" Use instead of Grep
+if executable('ag')
+    " Note we extract the column as well as the file and line number
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepformat=%f:%l:%c%m
+endif
 
 " }}}
 " Airline {{{
@@ -289,7 +347,7 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 
 "if !exists('g:airline_symbols')
-  "let g:airline_symbols = {}
+"let g:airline_symbols = {}
 "endif
 
 "let g:airline_left_sep = "\u2b80" "use double quotes here
@@ -309,17 +367,17 @@ let g:airline_right_sep=''
 "let g:airline_symbols.readonly = '?'
 "let g:airline_symbols.linenr = '?'
 
-"let g:airline_left_sep = '»'
+"let g:airline_left_sep = 'Â»'
 "let g:airline_left_sep = '?'
-"let g:airline_right_sep = '«'
+"let g:airline_right_sep = 'Â«'
 "let g:airline_right_sep = '?'
 "let g:airline_symbols.crypt = '??'
 "let g:airline_symbols.linenr = '?'
 "let g:airline_symbols.linenr = '?'
-"let g:airline_symbols.linenr = '¶'
+"let g:airline_symbols.linenr = 'Â¶'
 "let g:airline_symbols.branch = '?'
 "let g:airline_symbols.paste = '?'
-"let g:airline_symbols.paste = 'Þ'
+"let g:airline_symbols.paste = 'Ãž'
 "let g:airline_symbols.paste = '?'
 "let g:airline_symbols.whitespace = '?'
 
@@ -343,20 +401,28 @@ nnoremap <leader>bl :ls<CR>
 " }}}
 " CtrlP {{{
 
+let g:ctrlp_root_markers = ['.ctrlp']
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
+let g:ctrlp_switch_buffer = 'Et'
+let g:ctrlp_working_path_mode = 'r'
 "let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
 "let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|*vendor\|git|\.(o|swp|pyc|egg)$'
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|vendor|DS_Store|target)|(\.(swp|ico|git|svn))$'
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|vagrant|wp-includes|wp-admin|vendor|target)|(\.(swp|ico|svn|DS_Store|ctrlp))$'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+
+" }}}
+" JSHint & JSX {{{
+
+let jshint2_read = 0
+let jshint2_save = 0
+let jshint2_confirm = 0
+let jshint_esnext = 1
+nnoremap <silent><F2> :JSHint<CR>
+inoremap <silent><F2> <C-O>:JSHint<CR>
+vnoremap <silent><F2> :JSHint<CR>
+
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 " }}}
 " NERDTree {{{
@@ -377,14 +443,21 @@ let g:mustache_abbreviations = 1
 " }}}
 " Syntastic {{{
 
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_check_on_open = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_check_on_wq = 1
+
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_scss_checkers = ['scss_lint']
+let g:syntastic_yml_checkers = ['yaml_lint']
+
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_ignore_files = ['.java$']
-
-" }}}
-" Launch Config {{{
-
-"runtime! debian.vim
-"call pathogen#infect()
 
 " }}}
 " CSSComb {{{
@@ -407,6 +480,14 @@ nmap ga <Plug>(EasyAlign)
 " }}}
 "" Tmux {{{
 
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+
 "if exists('$TMUX') " allows cursor change in tmux mode
 "    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 "    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -422,19 +503,9 @@ set guioptions-=r
 set guioptions-=L
 
 " }}}
-" AutoGroups {{{
+" Tagbar {{{
 
-augroup configgroup
-    autocmd!
-    autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb :call <SID>StripTrailingWhitespaces()
-    autocmd BufEnter *.cls setlocal filetype=java
-    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
-    autocmd BufEnter Makefile setlocal noexpandtab
-    autocmd BufEnter *.sh setlocal tabstop=2
-    autocmd BufEnter *.sh setlocal shiftwidth=2
-    autocmd BufEnter *.sh setlocal softtabstop=2
-augroup END
+nnoremap <F8> :TagbarToggle<CR>
 
 " }}}
 " Backups {{{
@@ -444,6 +515,16 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=.,$TEMP
 set writebackup
+
+" }}}
+" YouCompleteMe {{{
+
+let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:ycm_key_list_select_completion = ['<C-j>', '<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 
 " }}}
 " Custom Functions {{{
@@ -549,39 +630,39 @@ endfunction
 " A wrapper function to restore the cursor position, window position,
 " and last search after running a command.
 function! Preserve(command)
-  " Save the last search
-  let last_search=@/
-  " Save the current cursor position
-  let save_cursor = getpos(".")
-  " Save the window position
-  normal H
-  let save_window = getpos(".")
-  call setpos('.', save_cursor)
+    " Save the last search
+    let last_search=@/
+    " Save the current cursor position
+    let save_cursor = getpos(".")
+    " Save the window position
+    normal H
+    let save_window = getpos(".")
+    call setpos('.', save_cursor)
 
-  " Do the business:
-  execute a:command
+    " Do the business:
+    execute a:command
 
-  " Restore the last_search
-  let @/=last_search
-  " Restore the window position
-  call setpos('.', save_window)
-  normal zt
-  " Restore the cursor position
-  call setpos('.', save_cursor)
+    " Restore the last_search
+    let @/=last_search
+    " Restore the window position
+    call setpos('.', save_window)
+    normal zt
+    " Restore the cursor position
+    call setpos('.', save_cursor)
 endfunction
 
 function! s:NextTextObject(motion, dir)
-  let c = nr2char(getchar())
+    let c = nr2char(getchar())
 
-  if c ==# "b"
-      let c = "("
-  elseif c ==# "B"
-      let c = "{"
-  elseif c ==# "r"
-      let c = "["
-  endif
+    if c ==# "b"
+        let c = "("
+    elseif c ==# "B"
+        let c = "{"
+    elseif c ==# "r"
+        let c = "["
+    endif
 
-  exe "np all trailing whitespaceormal! ".a:dir.c."v".a:motion.c
+    exe "np all trailing whitespaceormal! ".a:dir.c."v".a:motion.c
 endfunction
 
 " }}}

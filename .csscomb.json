@@ -25,17 +25,12 @@
     "strip-spaces": true,
     "unitless-zero": true,
     "vendor-prefix-align": true,
-    "sort-order": [
-        [
+    "sort-order": [ [
             "$import",
             "$variable",
             "$extend",
-            "$include"
-        ],
-        [
-          "$include-content"
-        ],
-        [
+            "$include",
+            "$include-content",
             "font",
             "font-family",
             "font-size",
@@ -49,18 +44,16 @@
             "font-emphasize-position",
             "font-emphasize-style",
             "font-smooth",
-            "line-height"
-        ],
-        [
+            "line-height",
             "position",
             "z-index",
             "top",
             "right",
             "bottom",
-            "left"
-        ],
-        [
+            "left",
             "display",
+            "align-items",
+            "justify-content",
             "visibility",
             "float",
             "clear",
@@ -74,9 +67,7 @@
             "flex-direction",
             "flex-order",
             "flex-pack",
-            "flex-align"
-        ],
-        [
+            "flex-align",
             "-webkit-box-sizing",
             "-moz-box-sizing",
             "box-sizing",
@@ -95,9 +86,7 @@
             "padding-top",
             "padding-right",
             "padding-bottom",
-            "padding-left"
-        ],
-        [
+            "padding-left",
             "table-layout",
             "empty-cells",
             "caption-side",
@@ -234,9 +223,7 @@
             "-webkit-hyphens",
             "-moz-hyphens",
             "hyphens",
-            "pointer-events"
-        ],
-        [
+            "pointer-events",
             "opacity",
             "filter:progid:DXImageTransform.Microsoft.Alpha(Opacity",
             "-ms-filter:\\'progid:DXImageTransform.Microsoft.Alpha",
@@ -332,6 +319,5 @@
             "filter:progid:DXImageTransform.Microsoft.gradient",
             "-ms-filter:\\'progid:DXImageTransform.Microsoft.gradient",
             "text-shadow"
-        ]
-    ]
+        ] ]
 }

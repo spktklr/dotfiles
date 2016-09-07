@@ -16,15 +16,22 @@ Plugin 'Solarized' "color scheme
 Plugin 'StanAngeloff/php.vim'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'alvan/vim-closetag'
+Plugin 'austintaylor/vim-commaobject'
+Plugin 'beanworks/vim-phpfmt'
 Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'chaoren/vim-wordmotion'
 Plugin 'christoomey/vim-sort-motion'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'christoomey/vim-tmux-runner'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'dbakker/vim-projectroot'
+Plugin 'docteurklein/php-getter-setter.vim'
 Plugin 'dsawardekar/wordpress.vim'
 Plugin 'ervandew/supertab'
 Plugin 'gmarik/Vundle.vim'
+Plugin 'godlygeek/tabular'
 Plugin 'greg-js/vim-react-es6-snippets'
 Plugin 'groenewege/vim-less'
 Plugin 'honza/vim-snippets'
@@ -37,28 +44,35 @@ Plugin 'justinj/vim-react-snippets'
 Plugin 'lisposter/vim-blackboard' "color scheme
 Plugin 'majutsushi/tagbar'
 Plugin 'matchit.zip'
+Plugin 'mattn/gist-vim'
+Plugin 'mileszs/ack.vim'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'mxw/vim-jsx'
+Plugin 'othree/html5.vim'
 Plugin 'pangloss/vim-javascript'
-Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'shawncplus/phpcomplete.vim'
+Plugin 'sudar/vim-wordpress-snippets'
 Plugin 'terryma/vim-expand-region'
+Plugin 'tobyS/pdv'
+Plugin 'tobyS/vmustache'
 Plugin 'tomtom/tlib_vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'tristen/vim-sparkup'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'vim-scripts/open-browser.vim'
+Plugin 'weierophinney/argumentrewrap'
 Plugin 'wikitopian/hardmode'
 
 call vundle#end()
 
-filetype plugin indent on 		" ensure ftdetect et al work by including this after the Vundle stuff
+filetype plugin indent on " ensure ftdetect et al work by including this after the Vundle stuff
 
 " }}}
 " AutoGroups {{{
@@ -92,6 +106,8 @@ else
     colorscheme blackboard
 endif
 
+" Color scheme customizations
+:hi SpecialKey term=bold cterm=bold ctermbg=0
 
 " }}}
 " Misc {{{
@@ -117,12 +133,14 @@ au BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php 
 
 set tabstop=4           		" 4 space tab
 set softtabstop=4       		" 4 space tab
-set expandtab           		" use spaces for tabs
+"set expandtab           		" use spaces for tabs
 set shiftwidth=4
 set modelines=1
 filetype indent on
 filetype plugin on
 set autoindent
+
+"au FileType php :set expandtab!
 
 " }}}
 " UI Layout {{{
@@ -164,6 +182,14 @@ if has('gui_running')
     endif
 endif
 
+" cursor for gvim
+highlight Cursor guifg=black guibg=green
+highlight iCursor guifg=green guibg=steelblue
+set guicursor=n-v-c:block-Cursor
+set guicursor+=i:ver100-iCursor
+set guicursor+=n-v-c:blinkon0
+set guicursor+=i:blinkwait10
+
 " }}}
 " Searching {{{
 
@@ -171,13 +197,13 @@ nnoremap / /\v
 vnoremap / /\v
 set ignorecase
 set smartcase
-set gdefault
+"set gdefault
 set incsearch
 set showmatch
 set hlsearch
 nnoremap <leader><space> :noh<cr>
-nnoremap <tab> %
-vnoremap <tab> %
+"nnoremap <tab> %
+"vnoremap <tab> %
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap - -
 vnoremap -- y/<C-R>"<CR>"
@@ -243,7 +269,7 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" Edit scandi layout
+ "Edit scandi layout
 nnoremap § ~
 nnoremap ½ `
 nnoremap " @
@@ -263,7 +289,7 @@ nnoremap Ö ;
 nnoremap ä '
 nnoremap Ä "
 nnoremap ' \
-"nnoremap * | 	" Causes no mapping found error
+"nnoremap * | "Causes no mapping found error
 nnoremap å [
 nnoremap Å {
 nnoremap ¨ ]
@@ -292,10 +318,9 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>t :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>s :mksession<CR>
-nnoremap <leader>a :Ag
+nnoremap <leader>a :Ack
 nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 nnoremap <leader>1 :set number!<CR>
-nnoremap <leader>d :Make!
 nnoremap <leader>r :call RunTestFile()<CR>
 nnoremap <leader>g :call RunGoFile()<CR>
 vnoremap <leader>y "+y
@@ -323,18 +348,75 @@ vmap <Leader>P "+P
 nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " }}}
-" Ag {{{
+" Ack {{{
 
 let g:ag_working_path_mode="r"
 " Use instead of Grep
 if executable('ag')
     " Note we extract the column as well as the file and line number
+    let g:ackprg = 'ag --vimgrep'
     set grepprg=ag\ --nogroup\ --nocolor\ --column
     set grepformat=%f:%l:%c%m
 endif
 
 " }}}
-" Airline {{{
+" CSSComb {{{
+
+" Map bc to run CSScomb. bc stands for beautify css
+autocmd FileType css,scss,less noremap <buffer> <leader>bc :CSScomb<CR>
+noremap <leader>bc :CSScomb<CR>
+" Automatically comb your CSS on save
+autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :CSScomb<CR>
+
+" }}}
+" JSHint & JSX {{{
+
+let jshint2_read = 0
+let jshint2_save = 0
+let jshint2_confirm = 0
+let jshint_esnext = 1
+nnoremap <silent><F2> :JSHint<CR>
+inoremap <silent><F2> <C-O>:JSHint<CR>
+vnoremap <silent><F2> :JSHint<CR>
+
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+
+" }}}
+" Tmux {{{
+
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+
+"if exists('$TMUX') " allows cursor change in tmux mode
+"    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"else
+"    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"endif
+
+"" }}}
+" MacVim {{{
+
+set guioptions-=r
+set guioptions-=L
+
+" }}}
+" Backups {{{
+
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=.,$TEMP
+set writebackup
+
+" }}}
+" Plugin Airline {{{
 
 set laststatus=2
 set ttimeoutlen=50
@@ -399,7 +481,20 @@ nnoremap <leader>w :bp <BAR> bd #<CR>
 nnoremap <leader>bl :ls<CR>
 
 " }}}
-" CtrlP {{{
+" Plugin Camelcasemotion {{{
+
+"call camelcasemotion#CreateMotionMappings('')
+"map <silent> w <Plug>CamelCaseMotion_w
+"map <silent> b <Plug>CamelCaseMotion_b
+"map <silent> e <Plug>CamelCaseMotion_e
+"map <silent> ge <Plug>CamelCaseMotion_ge
+"sunmap w
+"sunmap b
+"sunmap e
+"sunmap ge
+
+" }}}
+" Plugin CtrlP {{{
 
 let g:ctrlp_root_markers = ['.ctrlp']
 let g:ctrlp_show_hidden = 1
@@ -412,21 +507,38 @@ let g:ctrlp_custom_ignore = '\v[\/](node_modules|vagrant|wp-includes|wp-admin|ve
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " }}}
-" JSHint & JSX {{{
+" Plugin Easy-Align {{{
 
-let jshint2_read = 0
-let jshint2_save = 0
-let jshint2_confirm = 0
-let jshint_esnext = 1
-nnoremap <silent><F2> :JSHint<CR>
-inoremap <silent><F2> <C-O>:JSHint<CR>
-vnoremap <silent><F2> :JSHint<CR>
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
 
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+if !exists('g:easy_align_delimiters')
+  let g:easy_align_delimiters = {}
+endif
+
+"\ 'pattern': '@\w+\K(  )|string\K(  )|int\K(  )|mixed\K(  )|array\K(  )|\$\w+\K(  )',
+let g:easy_align_delimiters['d'] = {
+\ 'pattern': '(@\w+|string|int|mixed|array|\$\w+|\d+.*|[A-Z].+\.)',
+\ 'left_margin': 0, 'right_margin': 0
+\ }
 
 " }}}
-" NERDTree {{{
+" Plugin Gitgutter {{{
 
+let g:gitgutter_max_signs = 5
+
+" }}}
+" Plugin Mustache-Handlebars {{{
+
+let g:mustache_abbreviations = 1
+
+" }}}
+" Plugin NERDTree {{{
+
+let g:NERDTreeWinSize = 40 
 let NERDTreeIgnore = ['\.pyc$', 'venv', 'egg', 'egg-info/', 'dist']
 let NERDTreeShowHidden=1
 " Toggle nerdtree with F10
@@ -436,12 +548,31 @@ noremap <F11> :NERDTree<CR>
 noremap <F9> :NERDTreeFind<CR>
 
 " }}}
-" Mustache-Handlebars {{{
+" Plugin pdv {{{
 
-let g:mustache_abbreviations = 1
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+nnoremap <buffer> <leader>d :call pdv#DocumentWithSnip()<CR>
 
 " }}}
-" Syntastic {{{
+" Plugin php.vim {{{
+
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+  hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
+" }}}
+" Plugin phpfmt {{{
+
+let g:phpfmt_standard = 'WordPress'
+
+" }}}
+" Plugin Syntastic {{{
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -453,78 +584,44 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_wq = 1
 
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_php_checkers = [ 'phpcs', ]
 let g:syntastic_scss_checkers = ['scss_lint']
 let g:syntastic_yml_checkers = ['yaml_lint']
 
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_ignore_files = ['.java$']
 
-" }}}
-" CSSComb {{{
+let g:syntastic_wordpress_checkers = ['phpcs']
+let g:syntastic_wordpress_phpcs_standard = "WordPress" "Default standard
+let g:syntastic_wordpress_phpcs_args="--report=csv --standard=WordPress"
 
-" Map bc to run CSScomb. bc stands for beautify css
-autocmd FileType css,scss,less noremap <buffer> <leader>bc :CSScomb<CR>
-noremap <leader>bc :CSScomb<CR>
-" Automatically comb your CSS on save
-autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :CSScomb<CR>
+let g:syntastic_filetype_map = { "php.wordpress": "wordpress" }
 
-" }}}
-" Easy-Align {{{
-
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+let g:syntastic_aggregate_errors = 1
 
 " }}}
-"" Tmux {{{
+" Plugin Tabularize {{{
 
-let g:tmux_navigator_no_mappings = 1
-
-nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
-
-"if exists('$TMUX') " allows cursor change in tmux mode
-"    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-"    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-"else
-"    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-"    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-"endif
-
-"" }}}
-" MacVim {{{
-
-set guioptions-=r
-set guioptions-=L
+" Notice that the \ before the | needs escaping
+nnoremap <leader>p :Tabularize/@\w\+\s\+\zs\S\+\\|\%(@\w\+.*\)\@<=\u.*/<CR>
 
 " }}}
-" Tagbar {{{
+" Plugin Tagbar {{{
 
 nnoremap <F8> :TagbarToggle<CR>
 
 " }}}
-" Backups {{{
+" Plugin YouCompleteMe {{{
 
-set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=.,$TEMP
-set writebackup
-
-" }}}
-" YouCompleteMe {{{
-
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
-let g:ycm_key_list_select_completion = ['<C-j>', '<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " }}}
 " Custom Functions {{{

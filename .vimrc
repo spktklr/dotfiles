@@ -1,74 +1,80 @@
-set nocompatible				" be iMproved, required
+" {{{ Init
+
+set nocompatible			" be iMproved, required
 set encoding=utf-8
 filetype on 					" without this vim emits a zero exit status, later, because of :ft off
 filetype off
 
+" }}}
 "Plugins {{{
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'Shutnik/jshint2.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'Solarized' "color scheme
-Plugin 'StanAngeloff/php.vim'
-Plugin 'Valloric/MatchTagAlways'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'alvan/vim-closetag'
-Plugin 'austintaylor/vim-commaobject'
-Plugin 'beanworks/vim-phpfmt'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'chaoren/vim-wordmotion'
-Plugin 'christoomey/vim-sort-motion'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'christoomey/vim-tmux-runner'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'dbakker/vim-projectroot'
-Plugin 'docteurklein/php-getter-setter.vim'
-Plugin 'dsawardekar/wordpress.vim'
-Plugin 'ervandew/supertab'
-Plugin 'gmarik/Vundle.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'greg-js/vim-react-es6-snippets'
-Plugin 'groenewege/vim-less'
-Plugin 'honza/vim-snippets'
-Plugin 'inkpot' "color scheme
-Plugin 'iovar/vim-csscomb'
-Plugin 'isRuslan/vim-es6'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'justinj/vim-react-snippets'
-Plugin 'lisposter/vim-blackboard' "color scheme
-Plugin 'majutsushi/tagbar'
-Plugin 'matchit.zip'
-Plugin 'mattn/gist-vim'
-Plugin 'mileszs/ack.vim'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'mxw/vim-jsx'
-Plugin 'othree/html5.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'shawncplus/phpcomplete.vim'
-Plugin 'sudar/vim-wordpress-snippets'
-Plugin 'terryma/vim-expand-region'
-Plugin 'tobyS/pdv'
-Plugin 'tobyS/vmustache'
-Plugin 'tomtom/tlib_vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tristen/vim-sparkup'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'vim-scripts/open-browser.vim'
-Plugin 'weierophinney/argumentrewrap'
-Plugin 'wikitopian/hardmode'
+Plugin 'Lokaltog/vim-easymotion' "Easily move around
+Plugin 'SirVer/ultisnips' "Use snippets
+Plugin 'Solarized' "Color scheme
+" Plugin 'StanAngeloff/php.vim' "Up-to-date PHP syntax file
+Plugin '2072/PHP-Indenting-for-VIm' "Up-to-date PHP syntax file
+Plugin 'Valloric/MatchTagAlways' "A Vim plugin that always highlights the enclosing html/xml tags
+Plugin 'Valloric/YouCompleteMe' "A code-completion engine for Vim
+Plugin 'airblade/vim-gitgutter' "Git in the gutter
+Plugin 'airblade/vim-rooter' "Changes Vim working directory to project root
+Plugin 'austintaylor/vim-commaobject' "Add comma as a Vim object
+Plugin 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
+Plugin 'cakebaker/scss-syntax.vim' "Vim syntax file for scss (Sassy CSS)
+Plugin 'chaoren/vim-wordmotion' "More useful word motions for Vim
+Plugin 'christoomey/vim-sort-motion' "Vim mapping for sorting a range of text
+Plugin 'christoomey/vim-tmux-navigator' "Seamless navigation between tmux panes and vim splits
+Plugin 'christoomey/vim-tmux-runner' "Vim and tmux, sittin' in a tree...
+Plugin 'ctrlpvim/ctrlp.vim' "Fuzzy file, buffer, mru, tag, etc finder
+Plugin 'dbakker/vim-projectroot' "Find out which project a file belongs to
+Plugin 'docteurklein/php-getter-setter.vim' "generate php getters and setters from class properties
+Plugin 'dsawardekar/wordpress.vim' "Vim Plugin for WordPress Development
+Plugin 'editorconfig/editorconfig-vim' "EditorConfig plugin for Vim http://editorconfig.org
+Plugin 'elzr/vim-json' "A better JSON for Vim
+Plugin 'ervandew/supertab' "Perform all your vim insert mode completions with Tab
+Plugin 'gmarik/Vundle.vim' "Vundle, the plug-in manager for Vim
+Plugin 'godlygeek/tabular' "Vim script for text filtering and alignment
+Plugin 'greg-js/vim-react-es6-sNIPPets' "Vim ultisnips snippets for React, using es6 syntax
+Plugin 'groenewege/vim-less' "Vim syntax for LESS
+Plugin 'hail2u/vim-css3-syntax' "Add CSS3 syntax support to vim's built-in `syntax/css.vim`
+Plugin 'honza/vim-snippets' "Vim-snipmate default snippets
+Plugin 'inkpot' "Color scheme
+Plugin 'iovar/vim-csscomb' "CSScomb plugin for Vim
+Plugin 'isRuslan/vim-es6' "List of JavaScript ES6 snippets and syntax highlighting for vim
+Plugin 'jiangmiao/auto-pairs' "Vim plugin to insert or delete brackets, parens and quotes in pairs
+Plugin 'jistr/vim-nerdtree-tabs' "Handle NERDTree tab better
+Plugin 'junegunn/vim-easy-align' "A Vim alignment plugin
+Plugin 'justinj/vim-react-snippets' "Vim version of the snippets from jgebhardt/sublime-react
+Plugin 'lisposter/vim-blackboard' "Color scheme
+Plugin 'majutsushi/tagbar' "Vim plugin that displays tags in a window, ordered by scope.
+Plugin 'matchit.zip' "Configure % to match more than just single characters
+Plugin 'mattn/emmet-vim' "Emmet for vim: http://emmet.io/
+Plugin 'mattn/gist-vim' "Vimscript for gist
+Plugin 'mileszs/ack.vim' "Vim plugin for the Perl module / CLI script 'ack'
+Plugin 'mxw/vim-jsx' "React JSX syntax highlighting and indenting for vim.
+Plugin 'othree/html5.vim' "HTML5 omnicomplete and syntax
+Plugin 'pangloss/vim-javascript' "Vastly improved Javascript indentation and syntax support in Vim
+Plugin 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
+Plugin 'scrooloose/nerdtree' "A tree explorer plugin for vim
+Plugin 'scrooloose/syntastic' "Vim plugin providing syntax checking for a large variety of programming languages
+Plugin 'shawncplus/phpcomplete.vim' "Improved PHP omnicompletion.
+Plugin 'spktklr/vim-flip-comparands' "Flip two comparands around a comparison operator in Vim
+Plugin 'sudar/vim-wordpress-snippets' "Collection of Vim Snipmate snippets for WordPress.
+Plugin 'terryma/vim-expand-region' "Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination
+Plugin 'terryma/vim-multiple-cursors' "True Sublime Text style multiple selections for Vim
+Plugin 'tobyS/pdv' "PHP Documentor for VIM - Generates PHP docblocks
+Plugin 'tomtom/tlib_vim' "Some utility functions for VIM
+Plugin 'tpope/vim-fugitive' "A git wrapper so awesome, it should be illegal
+Plugin 'tpope/vim-markdown' "Vim Markdown runtime files
+Plugin 'tpope/vim-repeat' "repeat.vim: enable repeating supported plugin maps with '.'
+Plugin 'tpope/vim-surround' "Quoting/parenthesizing made simple.
+Plugin 'vim-airline/vim-airline' "Lean & mean status/tabline for vim that's light as air
+Plugin 'vim-ruby/vim-ruby' "Vim/Ruby Configuration Files
+Plugin 'vim-scripts/open-browser.vim' "Open URI with your favorite browser from your favorite editor.
+Plugin 'weierophinney/argumentrewrap' "Vim plugin to automatically rewrap argument lists to multiple lines
+Plugin 'wikitopian/hardmode' "Vim: Hard Mode
 
 call vundle#end()
 
@@ -100,10 +106,10 @@ if !has("gui_running")
     let &t_AF="\e[38;5;%dm"
     set t_Co=256
     syntax on
-    colorscheme blackboard
+	colorscheme blackboard
 else
     set background=dark
-    colorscheme blackboard
+	colorscheme blackboard
 endif
 
 " Color scheme customizations
@@ -133,14 +139,15 @@ au BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php 
 
 set tabstop=4           		" 4 space tab
 set softtabstop=4       		" 4 space tab
-"set expandtab           		" use spaces for tabs
-set shiftwidth=4
-set modelines=1
-filetype indent on
-filetype plugin on
-set autoindent
+" set expandtab           		" use spaces for tabs
+" set shiftwidth=4
+" set modelines=1
+" filetype indent on
+" filetype plugin on
+" set autoindent
+" set breakindent
 
-"au FileType php :set expandtab!
+" au FileType php :set expandtab!
 
 " }}}
 " UI Layout {{{
@@ -371,14 +378,6 @@ autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :CSScomb<CR>
 " }}}
 " JSHint & JSX {{{
 
-let jshint2_read = 0
-let jshint2_save = 0
-let jshint2_confirm = 0
-let jshint_esnext = 1
-nnoremap <silent><F2> :JSHint<CR>
-inoremap <silent><F2> <C-O>:JSHint<CR>
-vnoremap <silent><F2> :JSHint<CR>
-
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 " }}}
@@ -481,19 +480,6 @@ nnoremap <leader>w :bp <BAR> bd #<CR>
 nnoremap <leader>bl :ls<CR>
 
 " }}}
-" Plugin Camelcasemotion {{{
-
-"call camelcasemotion#CreateMotionMappings('')
-"map <silent> w <Plug>CamelCaseMotion_w
-"map <silent> b <Plug>CamelCaseMotion_b
-"map <silent> e <Plug>CamelCaseMotion_e
-"map <silent> ge <Plug>CamelCaseMotion_ge
-"sunmap w
-"sunmap b
-"sunmap e
-"sunmap ge
-
-" }}}
 " Plugin CtrlP {{{
 
 let g:ctrlp_root_markers = ['.ctrlp']
@@ -526,6 +512,20 @@ let g:easy_align_delimiters['d'] = {
 \ }
 
 " }}}
+" Plugin EditorConfig {{{
+
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+" }}}
+" {{{ Plugin Emmet-vim
+
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
+
+" }}}
 " Plugin Gitgutter {{{
 
 let g:gitgutter_max_signs = 5
@@ -536,10 +536,15 @@ let g:gitgutter_max_signs = 5
 let g:mustache_abbreviations = 1
 
 " }}}
+" Plugin NERDCommenter {{{
+
+let NERDSpaceDelims=1
+
+" }}}
 " Plugin NERDTree {{{
 
-let g:NERDTreeWinSize = 40 
-let NERDTreeIgnore = ['\.pyc$', 'venv', 'egg', 'egg-info/', 'dist']
+let g:NERDTreeWinSize = 40
+let NERDTreeIgnore = ['\.pyc$', 'venv', 'egg', 'egg-info/', 'tags', 'DS_Store']
 let NERDTreeShowHidden=1
 " Toggle nerdtree with F10
 noremap <F10> :NERDTreeToggle<CR>
@@ -556,20 +561,25 @@ nnoremap <buffer> <leader>d :call pdv#DocumentWithSnip()<CR>
 " }}}
 " Plugin php.vim {{{
 
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
-endfunction
+" function! PhpSyntaxOverride()
+  " hi! def link phpDocTags  phpDefine
+  " hi! def link phpDocParam phpType
+" endfunction
 
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
+" augroup phpSyntaxOverride
+  " autocmd!
+  " autocmd FileType php call PhpSyntaxOverride()
+" augroup END
 
 " }}}
 " Plugin phpfmt {{{
 
 let g:phpfmt_standard = 'WordPress'
+
+" }}}
+" {{{ Plugin vim-rooter
+
+let g:rooter_patterns = ['Rakefile', '.git/']
 
 " }}}
 " Plugin Syntastic {{{
@@ -611,17 +621,22 @@ nnoremap <leader>p :Tabularize/@\w\+\s\+\zs\S\+\\|\%(@\w\+.*\)\@<=\u.*/<CR>
 nnoremap <F8> :TagbarToggle<CR>
 
 " }}}
+" Plugin UltiSnips {{{
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" correct snippets dir
+let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+
+" }}}
 " Plugin YouCompleteMe {{{
 
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " }}}
 " Custom Functions {{{
@@ -662,6 +677,7 @@ if !exists("no_plugin_maps") && !exists("no_toggle_mouse_maps")
     endif
 endif
 
+" Toggle relative line numbers.
 function! ToggleNumber()
     if(&relativenumber == 1)
         set norelativenumber
@@ -763,6 +779,3 @@ function! s:NextTextObject(motion, dir)
 endfunction
 
 " }}}
-
-" vim:foldmethod=marker:foldlevel=0
-

@@ -17,11 +17,12 @@ Plugin 'Solarized' "Color scheme
 " Plugin 'StanAngeloff/php.vim' "Up-to-date PHP syntax file
 Plugin '2072/PHP-Indenting-for-VIm' "Up-to-date PHP syntax file
 Plugin 'Valloric/MatchTagAlways' "A Vim plugin that always highlights the enclosing html/xml tags
+Plugin 'captbaritone/better-indent-support-for-php-with-html' "Better PHP HTML indent
 Plugin 'Valloric/YouCompleteMe' "A code-completion engine for Vim
 Plugin 'airblade/vim-gitgutter' "Git in the gutter
 Plugin 'airblade/vim-rooter' "Changes Vim working directory to project root
 Plugin 'austintaylor/vim-commaobject' "Add comma as a Vim object
-Plugin 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
+" Plugin 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
 Plugin 'cakebaker/scss-syntax.vim' "Vim syntax file for scss (Sassy CSS)
 Plugin 'chaoren/vim-wordmotion' "More useful word motions for Vim
 Plugin 'christoomey/vim-sort-motion' "Vim mapping for sorting a range of text
@@ -84,15 +85,15 @@ filetype plugin indent on " ensure ftdetect et al work by including this after t
 " AutoGroups {{{
 
 augroup configgroup
-    autocmd!
-    autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb :call <SID>StripTrailingWhitespaces()
-    autocmd BufEnter *.cls setlocal filetype=java
-    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
-    autocmd BufEnter Makefile setlocal noexpandtab
-    autocmd BufEnter *.sh setlocal tabstop=2
-    autocmd BufEnter *.sh setlocal shiftwidth=2
-    autocmd BufEnter *.sh setlocal softtabstop=2
+  autocmd!
+  autocmd VimEnter * highlight clear SignColumn
+  autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb :call <SID>StripTrailingWhitespaces()
+  autocmd BufEnter *.cls setlocal filetype=java
+  autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+  autocmd BufEnter Makefile setlocal noexpandtab
+  autocmd BufEnter *.sh setlocal tabstop=2
+  autocmd BufEnter *.sh setlocal shiftwidth=2
+  autocmd BufEnter *.sh setlocal softtabstop=2
 augroup END
 
 " }}}
@@ -101,19 +102,20 @@ augroup END
 syntax enable           		" enable syntax processing
 
 if !has("gui_running")
-    set term=xterm-256color
-    let &t_AB="\e[48;5;%dm"
-    let &t_AF="\e[38;5;%dm"
-    set t_Co=256
-    syntax on
-	colorscheme blackboard
+  set term=xterm-256color
+  let &t_AB="\e[48;5;%dm"
+  let &t_AF="\e[38;5;%dm"
+  set t_Co=256
+  syntax on
+  colorscheme blackboard
 else
-    set background=dark
-	colorscheme blackboard
+  set background=dark
+  colorscheme blackboard
 endif
 
 " Color scheme customizations
-:hi SpecialKey term=bold cterm=bold ctermbg=0
+hi SpecialKey term=bold cterm=bold ctermbg=0
+hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 
 " }}}
 " Misc {{{
@@ -165,28 +167,28 @@ set listchars=tab:\ \ ,trail:·,eol:¬,nbsp:_
 
 set mouse=a						" enable mouse (for scrolling)
 if !has("gui_running") 			" let mouse wheel scroll file contents
-    set mouse=a
-    set nocompatible
-    inoremap <Esc>[62~ <C-X><C-E>
-    inoremap <Esc>[63~ <C-X><C-Y>
-    nnoremap <Esc>[62~ <C-E>
-    nnoremap <Esc>[63~ <C-Y>
+  set mouse=a
+  set nocompatible
+  inoremap <Esc>[62~ <C-X><C-E>
+  inoremap <Esc>[63~ <C-X><C-Y>
+  nnoremap <Esc>[62~ <C-E>
+  nnoremap <Esc>[63~ <C-Y>
 endif
 
 if has('gui_running')
-    set guioptions-=m  		"remove menu bar
-    set guioptions-=T  		"remove toolbar
-    set guioptions-=r  		"remove right-hand scroll bar
-    set guioptions-=L  		"remove left-hand scroll bar
-    set lines=60 columns=108 linespace=0
-    if has('gui_win32')
-        "set encoding=utf-8
-        "set guifont=Powerline_Consolas:h11
-        set guifont=hack:h10
-    else
-        set encoding=utf-8
-        set guifont=Consolas:h14
-    endif
+  set guioptions-=m  		"remove menu bar
+  set guioptions-=T  		"remove toolbar
+  set guioptions-=r  		"remove right-hand scroll bar
+  set guioptions-=L  		"remove left-hand scroll bar
+  set lines=60 columns=108 linespace=0
+  if has('gui_win32')
+    "set encoding=utf-8
+    "set guifont=Powerline_Consolas:h11
+    set guifont=hack:h10
+  else
+    set encoding=utf-8
+    set guifont=Consolas:h14
+  endif
 endif
 
 " cursor for gvim
@@ -276,7 +278,7 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
- "Edit scandi layout
+"Edit scandi layout
 nnoremap § ~
 nnoremap ½ `
 nnoremap " @
@@ -316,8 +318,7 @@ vnoremap ö :
 
 let mapleader=","
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
-nnoremap <leader>u :GundoToggle<CR>
-vnoremap <leader>u :sort u<CR>
+nnoremap <leader>u :call IndentHtmlPhp()<CR>
 nnoremap <leader>h :A<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>ez :vsp ~/.zshrc<CR>
@@ -360,11 +361,16 @@ nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 let g:ag_working_path_mode="r"
 " Use instead of Grep
 if executable('ag')
-    " Note we extract the column as well as the file and line number
-    let g:ackprg = 'ag --vimgrep'
-    set grepprg=ag\ --nogroup\ --nocolor\ --column
-    set grepformat=%f:%l:%c%m
+  " Note we extract the column as well as the file and line number
+  let g:ackprg = 'ag --vimgrep'
+  set grepprg=ag\ --nogroup\ --nocolor\ --column
+  set grepformat=%f:%l:%c%m
 endif
+
+" }}}
+" PHP {{{
+
+let g:PHP_vintage_case_default_indent = 1
 
 " }}}
 " CSSComb {{{
@@ -507,9 +513,9 @@ endif
 
 "\ 'pattern': '@\w+\K(  )|string\K(  )|int\K(  )|mixed\K(  )|array\K(  )|\$\w+\K(  )',
 let g:easy_align_delimiters['d'] = {
-\ 'pattern': '(@\w+|string|int|mixed|array|\$\w+|\d+.*|[A-Z].+\.)',
-\ 'left_margin': 0, 'right_margin': 0
-\ }
+      \ 'pattern': '(@\w+|string|int|mixed|array|\$\w+|\d+.*|[A-Z].+\.)',
+      \ 'left_margin': 0, 'right_margin': 0
+      \ }
 
 " }}}
 " Plugin EditorConfig {{{
@@ -520,10 +526,10 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " {{{ Plugin Emmet-vim
 
 let g:user_emmet_settings = {
-\  'javascript' : {
-\      'extends' : 'jsx',
-\  },
-\}
+      \  'javascript' : {
+      \      'extends' : 'jsx',
+      \  },
+      \}
 
 " }}}
 " Plugin Gitgutter {{{
@@ -557,19 +563,6 @@ noremap <F9> :NERDTreeFind<CR>
 
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
 nnoremap <buffer> <leader>d :call pdv#DocumentWithSnip()<CR>
-
-" }}}
-" Plugin php.vim {{{
-
-" function! PhpSyntaxOverride()
-  " hi! def link phpDocTags  phpDefine
-  " hi! def link phpDocParam phpType
-" endfunction
-
-" augroup phpSyntaxOverride
-  " autocmd!
-  " autocmd FileType php call PhpSyntaxOverride()
-" augroup END
 
 " }}}
 " Plugin phpfmt {{{
@@ -648,134 +641,158 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 "
 " Only do this when not done yet for this buffer
 if exists("b:loaded_toggle_mouse_plugin")
-    finish
+  finish
 endif
 let b:loaded_toggle_mouse_plugin = 1
 
 fun! s:ToggleMouse()
-    if !exists("s:old_mouse")
-        let s:old_mouse = "a"
-    endif
+  if !exists("s:old_mouse")
+    let s:old_mouse = "a"
+  endif
 
-    if &mouse == ""
-        let &mouse = s:old_mouse
-        echo "Mouse is for Vim (" . &mouse . ")"
-    else
-        let s:old_mouse = &mouse
-        let &mouse=""
-        echo "Mouse is for terminal"
-    endif
+  if &mouse == ""
+    let &mouse = s:old_mouse
+    echo "Mouse is for Vim (" . &mouse . ")"
+  else
+    let s:old_mouse = &mouse
+    let &mouse=""
+    echo "Mouse is for terminal"
+  endif
 endfunction
 
 " Add mappings, unless the user didn't want this.
 " The default mapping is registered under to <F12> by default, unless the user
 " remapped it already (or a mapping exists already for <F12>)
 if !exists("no_plugin_maps") && !exists("no_toggle_mouse_maps")
-    if !hasmapto('<SID>ToggleMouse()')
-        noremap <F12> :call <SID>ToggleMouse()<CR>
-        inoremap <F12> <Esc>:call <SID>ToggleMouse()<CR>a
-    endif
+  if !hasmapto('<SID>ToggleMouse()')
+    noremap <F12> :call <SID>ToggleMouse()<CR>
+    inoremap <F12> <Esc>:call <SID>ToggleMouse()<CR>a
+  endif
 endif
 
 " Toggle relative line numbers.
 function! ToggleNumber()
-    if(&relativenumber == 1)
-        set norelativenumber
-        set number
-    else
-        set relativenumber
-    endif
+  if(&relativenumber == 1)
+    set norelativenumber
+    set number
+  else
+    set relativenumber
+  endif
 endfunction
 
 function! RunTestFile()
-    if(&ft=='python')
-        exec ":!" . ". venv/bin/activate; nosetests " .bufname('%') . " --stop"
-    endif
+  if(&ft=='python')
+    exec ":!" . ". venv/bin/activate; nosetests " .bufname('%') . " --stop"
+  endif
 endfunction
 
 function! RunGoFile()
-    if(&ft=='go')
-        exec ":new|0read ! go run " . bufname('%')
-    endif
+  if(&ft=='go')
+    exec ":new|0read ! go run " . bufname('%')
+  endif
 endfunction
 
 function! RunTestsInFile()
-    if(&ft=='php')
-        :execute "!" . "/Users/dblack/pear/bin/phpunit -d memory_limit=512M -c /usr/local/twilio/src/php/tests/config.xml --bootstrap /usr/local/twilio/src/php/tests/bootstrap.php " . bufname('%') . ' \| grep -v Configuration \| egrep -v "^$" '
-    elseif(&ft=='go')
-        exec ":!gp test"
-    elseif(&ft=='python')
-        exec ":read !" . ". venv/bin/activate; nosetests " . bufname('%') . " --nocapture"
-    endif
+  if(&ft=='php')
+    :execute "!" . "/Users/dblack/pear/bin/phpunit -d memory_limit=512M -c /usr/local/twilio/src/php/tests/config.xml --bootstrap /usr/local/twilio/src/php/tests/bootstrap.php " . bufname('%') . ' \| grep -v Configuration \| egrep -v "^$" '
+  elseif(&ft=='go')
+    exec ":!gp test"
+  elseif(&ft=='python')
+    exec ":read !" . ". venv/bin/activate; nosetests " . bufname('%') . " --nocapture"
+  endif
 endfunction
 
 " strips trailing whitespace at the end of files. this
 " is called on buffer write in the autogroup above.
 function! <SID>StripTrailingWhitespaces()
-    " save last search & cursor position
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    let @/=_s
-    call cursor(l, c)
+  " save last search & cursor position
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  let @/=_s
+  call cursor(l, c)
 endfunction
 
 function! <SID>CleanFile()
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    %!git stripspace
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %!git stripspace
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
 endfunction
 
 " indents file
 function! IndentFile()
-    let l:winview = winsaveview()
-    exec "normal gg=G"
-    call winrestview(l:winview)
+  let l:winview = winsaveview()
+  exec "normal gg=G"
+  call winrestview(l:winview)
 endfunction
 
 " A wrapper function to restore the cursor position, window position,
 " and last search after running a command.
 function! Preserve(command)
-    " Save the last search
-    let last_search=@/
-    " Save the current cursor position
-    let save_cursor = getpos(".")
-    " Save the window position
-    normal H
-    let save_window = getpos(".")
-    call setpos('.', save_cursor)
+  " Save the last search
+  let last_search=@/
+  " Save the current cursor position
+  let save_cursor = getpos(".")
+  " Save the window position
+  normal H
+  let save_window = getpos(".")
+  call setpos('.', save_cursor)
 
-    " Do the business:
-    execute a:command
+  " Do the business:
+  execute a:command
 
-    " Restore the last_search
-    let @/=last_search
-    " Restore the window position
-    call setpos('.', save_window)
-    normal zt
-    " Restore the cursor position
-    call setpos('.', save_cursor)
+  " Restore the last_search
+  let @/=last_search
+  " Restore the window position
+  call setpos('.', save_window)
+  normal zt
+  " Restore the cursor position
+  call setpos('.', save_cursor)
+endfunction
+
+function! IndentHtmlPhp()
+  " Save the last search
+  let last_search=@/
+  " Save the current cursor position
+  let save_cursor = getpos(".")
+  " Save the window position
+  normal H
+  let save_window = getpos(".")
+  call setpos('.', save_cursor)
+
+  execute "normal! :set ft=html\<CR>"
+  execute "normal! gg=G"
+  execute "normal! :set ft=php.wordpress\<CR>"
+  execute "normal! gg=G"
+
+  " Restore the last_search
+  let @/=last_search
+  " Restore the window position
+  call setpos('.', save_window)
+  normal zt
+  " Restore the cursor position
+  call setpos('.', save_cursor)
 endfunction
 
 function! s:NextTextObject(motion, dir)
-    let c = nr2char(getchar())
+  let c = nr2char(getchar())
 
-    if c ==# "b"
-        let c = "("
-    elseif c ==# "B"
-        let c = "{"
-    elseif c ==# "r"
-        let c = "["
-    endif
+  if c ==# "b"
+    let c = "("
+  elseif c ==# "B"
+    let c = "{"
+  elseif c ==# "r"
+    let c = "["
+  endif
 
-    exe "np all trailing whitespaceormal! ".a:dir.c."v".a:motion.c
+  exe "np all trailing whitespaceormal! ".a:dir.c."v".a:motion.c
 endfunction
 
 " }}}

@@ -11,19 +11,19 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+" Plugin 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
+Plugin '2072/PHP-Indenting-for-VIm' "Up-to-date PHP syntax file
 Plugin 'Lokaltog/vim-easymotion' "Easily move around
 Plugin 'SirVer/ultisnips' "Use snippets
 Plugin 'Solarized' "Color scheme
-" Plugin 'StanAngeloff/php.vim' "Up-to-date PHP syntax file
-Plugin '2072/PHP-Indenting-for-VIm' "Up-to-date PHP syntax file
+Plugin 'StanAngeloff/php.vim' "Up-to-date PHP syntax file
 Plugin 'Valloric/MatchTagAlways' "A Vim plugin that always highlights the enclosing html/xml tags
-Plugin 'captbaritone/better-indent-support-for-php-with-html' "Better PHP HTML indent
 Plugin 'Valloric/YouCompleteMe' "A code-completion engine for Vim
 Plugin 'airblade/vim-gitgutter' "Git in the gutter
 Plugin 'airblade/vim-rooter' "Changes Vim working directory to project root
 Plugin 'austintaylor/vim-commaobject' "Add comma as a Vim object
-" Plugin 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
 Plugin 'cakebaker/scss-syntax.vim' "Vim syntax file for scss (Sassy CSS)
+Plugin 'captbaritone/better-indent-support-for-php-with-html' "Better PHP HTML indent
 Plugin 'chaoren/vim-wordmotion' "More useful word motions for Vim
 Plugin 'christoomey/vim-sort-motion' "Vim mapping for sorting a range of text
 Plugin 'christoomey/vim-tmux-navigator' "Seamless navigation between tmux panes and vim splits
@@ -107,6 +107,7 @@ if !has("gui_running")
   let &t_AF="\e[38;5;%dm"
   set t_Co=256
   syntax on
+  set background=dark
   colorscheme blackboard
 else
   set background=dark
@@ -186,8 +187,10 @@ if has('gui_running')
     "set guifont=Powerline_Consolas:h11
     set guifont=hack:h10
   else
-    set encoding=utf-8
-    set guifont=Consolas:h14
+    " set encoding=utf-8
+    " set guifont=Consolas:h14
+    set macligatures
+    set guifont=Fira\ Code:h12
   endif
 endif
 
@@ -242,6 +245,9 @@ noremap <C-S> :update!<CR><Esc>
 vnoremap <C-S> <C-C>:update!<CR><Esc>
 inoremap <C-S> <C-O>:update!<CR><Esc>
 
+" Visual Block Mode
+nnoremap <C-x>  <C-v>
+
 " Copy & Paste from clipboard
 vnoremap <C-c> "*y
 nnoremap <C-v> :set paste<CR>"*p :set nopaste<CR>
@@ -279,39 +285,40 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 "Edit scandi layout
-nnoremap § ~
-nnoremap ½ `
+inoremap Ä <C-R>=AutoPairsInsert("\}")<CR>
+inoremap Ö <C-R>=AutoPairsInsert("\{")<CR>
+inoremap ä <C-R>=AutoPairsInsert("\]")<CR>
+inoremap ö <C-R>=AutoPairsInsert("\[")<CR>
+
 nnoremap " @
-noremap ¤ $
-noremap € $
 nnoremap & ^
-nnoremap / &
+nnoremap ' \
 nnoremap ( *
 nnoremap ) (
-nnoremap = )
+" nnoremap * | " Causes mapping not found error
 nnoremap + -
-nnoremap ? _
-nnoremap ´ =
-nnoremap ` +
-nnoremap ö :
-nnoremap Ö ;
-nnoremap ä '
-nnoremap Ä "
-nnoremap ' \
-"nnoremap * | "Causes no mapping found error
-nnoremap å [
-nnoremap Å {
-nnoremap ¨ ]
-nnoremap ^ }
-nnoremap ; <
-nnoremap : >
 nnoremap - /
+nnoremap / &
+nnoremap = )
+nnoremap ? _
+nnoremap ^ }
 nnoremap _ ?
-inoremap ö :
-inoremap Ö {
-inoremap ä ]
-inoremap Ä }
-vnoremap ö :
+nnoremap ` +
+nnoremap § ~
+nnoremap ¨ ]
+nnoremap ´ =
+nnoremap ½ `
+nnoremap Ä }
+nnoremap Ö {
+nnoremap ä ]
+nnoremap ö [
+noremap ¤ $
+noremap € $
+
+vnoremap Ä }
+vnoremap Ö {
+vnoremap ä ]
+vnoremap ö [
 
 " }}}
 " Leader Shortcuts {{{
@@ -382,7 +389,7 @@ noremap <leader>bc :CSScomb<CR>
 autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :CSScomb<CR>
 
 " }}}
-" JSHint & JSX {{{
+" JSX {{{
 
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
@@ -406,12 +413,6 @@ nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 "endif
 
 "" }}}
-" MacVim {{{
-
-set guioptions-=r
-set guioptions-=L
-
-" }}}
 " Backups {{{
 
 set backup
@@ -486,6 +487,11 @@ nnoremap <leader>w :bp <BAR> bd #<CR>
 nnoremap <leader>bl :ls<CR>
 
 " }}}
+" Plugin Auto-pairs {{{
+
+let g:AutoPairsFlyMode = 1
+
+" }}}
 " Plugin CtrlP {{{
 
 let g:ctrlp_root_markers = ['.ctrlp']
@@ -526,7 +532,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " {{{ Plugin Emmet-vim
 
 let g:user_emmet_settings = {
-      \  'javascript' : {
+      \  'javascript.jsx' : {
       \      'extends' : 'jsx',
       \  },
       \}

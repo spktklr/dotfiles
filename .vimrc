@@ -30,33 +30,38 @@ Plugin 'christoomey/vim-tmux-navigator' "Seamless navigation between tmux panes 
 Plugin 'christoomey/vim-tmux-runner' "Vim and tmux, sittin' in a tree...
 Plugin 'ctrlpvim/ctrlp.vim' "Fuzzy file, buffer, mru, tag, etc finder
 Plugin 'dbakker/vim-projectroot' "Find out which project a file belongs to
+Plugin 'digitaltoad/vim-pug' "Vim Pug (formerly Jade) template engine syntax highlighting and indention
 Plugin 'docteurklein/php-getter-setter.vim' "generate php getters and setters from class properties
 Plugin 'dsawardekar/wordpress.vim' "Vim Plugin for WordPress Development
 Plugin 'editorconfig/editorconfig-vim' "EditorConfig plugin for Vim http://editorconfig.org
 Plugin 'elzr/vim-json' "A better JSON for Vim
+Plugin 'epilande/vim-react-snippets' "Vim react snippets
 Plugin 'ervandew/supertab' "Perform all your vim insert mode completions with Tab
+Plugin 'fatih/vim-nginx' "Vim Nginx
+Plugin 'fleischie/vim-styled-components' "Vim bundle for http://styled-components.com based javascript files.
 Plugin 'gmarik/Vundle.vim' "Vundle, the plug-in manager for Vim
 Plugin 'godlygeek/tabular' "Vim script for text filtering and alignment
 Plugin 'greg-js/vim-react-es6-sNIPPets' "Vim ultisnips snippets for React, using es6 syntax
 Plugin 'groenewege/vim-less' "Vim syntax for LESS
 Plugin 'hail2u/vim-css3-syntax' "Add CSS3 syntax support to vim's built-in `syntax/css.vim`
+Plugin 'heavenshell/vim-jsdoc' "Generate JSDoc to your JavaScript code.
 Plugin 'honza/vim-snippets' "Vim-snipmate default snippets
 Plugin 'inkpot' "Color scheme
-Plugin 'iovar/vim-csscomb' "CSScomb plugin for Vim
-Plugin 'isRuslan/vim-es6' "List of JavaScript ES6 snippets and syntax highlighting for vim
 Plugin 'jiangmiao/auto-pairs' "Vim plugin to insert or delete brackets, parens and quotes in pairs
 Plugin 'jistr/vim-nerdtree-tabs' "Handle NERDTree tab better
 Plugin 'junegunn/vim-easy-align' "A Vim alignment plugin
-Plugin 'justinj/vim-react-snippets' "Vim version of the snippets from jgebhardt/sublime-react
+Plugin 'kewah/vim-stylefmt' "Format your stylesheets using stylefmt inside Vim
 Plugin 'lisposter/vim-blackboard' "Color scheme
 Plugin 'majutsushi/tagbar' "Vim plugin that displays tags in a window, ordered by scope.
 Plugin 'matchit.zip' "Configure % to match more than just single characters
 Plugin 'mattn/emmet-vim' "Emmet for vim: http://emmet.io/
 Plugin 'mattn/gist-vim' "Vimscript for gist
 Plugin 'mileszs/ack.vim' "Vim plugin for the Perl module / CLI script 'ack'
+Plugin 'mustache/vim-mustache-handlebars' "mustache and handlebars mode for vim http://mustache.github.io
 Plugin 'mxw/vim-jsx' "React JSX syntax highlighting and indenting for vim.
 Plugin 'othree/html5.vim' "HTML5 omnicomplete and syntax
 Plugin 'pangloss/vim-javascript' "Vastly improved Javascript indentation and syntax support in Vim
+Plugin 'ruanyl/vim-fixmyjs' "Auto fix your javascript using fixmyjs
 Plugin 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
 Plugin 'scrooloose/nerdtree' "A tree explorer plugin for vim
 Plugin 'scrooloose/syntastic' "Vim plugin providing syntax checking for a large variety of programming languages
@@ -66,7 +71,10 @@ Plugin 'sudar/vim-wordpress-snippets' "Collection of Vim Snipmate snippets for W
 Plugin 'terryma/vim-expand-region' "Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination
 Plugin 'terryma/vim-multiple-cursors' "True Sublime Text style multiple selections for Vim
 Plugin 'tobyS/pdv' "PHP Documentor for VIM - Generates PHP docblocks
+Plugin 'tobyS/vmustache' "Required for pdv plugin
+Plugin 'tommcdo/vim-fubitive' "Add Bitbucket URL support to fugitive.vim's :Gbrowse command
 Plugin 'tomtom/tlib_vim' "Some utility functions for VIM
+Plugin 'tpope/vim-abolish' "Easily search for, substitute, and abbreviate multiple variants of a word
 Plugin 'tpope/vim-fugitive' "A git wrapper so awesome, it should be illegal
 Plugin 'tpope/vim-markdown' "Vim Markdown runtime files
 Plugin 'tpope/vim-repeat' "repeat.vim: enable repeating supported plugin maps with '.'
@@ -121,15 +129,17 @@ hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 " }}}
 " Misc {{{
 
-set ttyfast            			" faster redraw
+set ttyfast          " faster redraw
 set backspace=indent,eol,start
-set hidden						" hides buffers instead of closing them
-set history=1000        		" remember more commands and search history
-set undolevels=1000     		" use many muchos levels of undo
+set hidden           " hides buffers instead of closing them
+set history=1000     " remember more commands and search history
+set undolevels=1000  " use many muchos levels of undo
 set noswapfile
 set linebreak
 set scrolloff=5
-set autochdir                   " auto cd to current file folder
+set autochdir        " auto cd to current file folder
+set shell=zsh\ -l
+
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " do not comment new lines automatically
 
@@ -190,7 +200,7 @@ if has('gui_running')
     " set encoding=utf-8
     " set guifont=Consolas:h14
     set macligatures
-    set guifont=Fira\ Code:h12
+    set guifont=Fira\ Code:h16
   endif
 endif
 
@@ -324,43 +334,47 @@ vnoremap ö [
 " Leader Shortcuts {{{
 
 let mapleader=","
-nnoremap <leader>m :silent make\|redraw!\|cw<CR>
-nnoremap <leader>u :call IndentHtmlPhp()<CR>
-nnoremap <leader>h :A<CR>
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
-nnoremap <leader>ez :vsp ~/.zshrc<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
-nnoremap <leader>t :call ToggleNumber()<CR>
+nnoremap <leader>1 :set number!<CR>
 nnoremap <leader><space> :noh<CR>
-nnoremap <leader>s :mksession<CR>
 nnoremap <leader>a :Ack
 nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
-nnoremap <leader>1 :set number!<CR>
-nnoremap <leader>r :call RunTestFile()<CR>
-nnoremap <leader>g :call RunGoFile()<CR>
-vnoremap <leader>y "+y
-nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR> "strip all trailing whitespace
-"nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR> "sort CSS
-nnoremap <leader>v V`] "reselect the text just pasted
-nnoremap <leader>q :q<CR>
-" Re-indents buffer.
-nnoremap <silent> <Leader>i :call Preserve("normal! gg=G")<CR>
-" Removes all trailing whitespace in buffer.
-nnoremap <silent> <Leader>o :call Preserve("%s/\\s\\+$//e")<CR>
-" Sort SCSS
-"nnoremap <F7> :g#\({\n\)\@<=#.,/\.*[{}]\@=/-1 sort
 " Search the WP Codex with WordPress Vim
 nnoremap <leader>co :Wcodexsearch<CR>
+nnoremap <leader>dj :JsDoc<CR>
+" type :e and pre-populate with dir of current file
+nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <leader>el :!el % --fix<CR>
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>g :call RunGoFile()<CR>
+nnoremap <leader>h :A<CR>
+" Re-indents buffer.
+nnoremap <silent><Leader>i :call Preserve("normal! gg=G")<CR>
+nnoremap <leader>m :silent make\|redraw!\|cw<CR>
+" Removes all trailing whitespace in buffer.
+nnoremap <silent><Leader>o :call Preserve("%s/\\s\\+$//e")<CR>
+nnoremap <leader>pp :!phpcbf % --standard=WordPress-Core<CR>
+nnoremap <leader>r :call RunTestFile()<CR>
+"nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR> "sort CSS
+nnoremap <leader>s :mksession<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>t :call ToggleNumber()<CR>
+nnoremap <leader>u :call IndentHtmlPhp()<CR>
+vnoremap <leader>y "+y
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR> "strip all trailing whitespace
+nnoremap <leader>v V`] "reselect the text just pasted
+nnoremap <leader>q :q<CR>
+" Sort SCSS
+"nnoremap <F7> :g#\({\n\)\@<=#.,/\.*[{}]\@=/-1 sort
+vnoremap <Leader>a y:Ack <C-r>=fnameescape(@")<CR><CR>
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 vmap <Leader>y "+y
 vmap <Leader>d "+d
-nmap <Leader>p "+p
+" nmap <Leader>p "+p
 nmap <Leader>P "+P
-vmap <Leader>p "+p
+" vmap <Leader>p "+p
 vmap <Leader>P "+P
-" type :e and pre-populate with dir of current file
-nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " }}}
 " Ack {{{
@@ -380,13 +394,13 @@ endif
 let g:PHP_vintage_case_default_indent = 1
 
 " }}}
-" CSSComb {{{
+" Stylefmt {{{
 
-" Map bc to run CSScomb. bc stands for beautify css
-autocmd FileType css,scss,less noremap <buffer> <leader>bc :CSScomb<CR>
-noremap <leader>bc :CSScomb<CR>
-" Automatically comb your CSS on save
-autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :CSScomb<CR>
+nnoremap <silent> <leader>bc :Stylefmt<CR>
+vnoremap <silent> <leader>bc :StylefmtVisual<CR>
+
+" Automatically fmt styles on save
+autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :Stylefmt<CR>
 
 " }}}
 " JSX {{{
@@ -487,9 +501,9 @@ nnoremap <leader>w :bp <BAR> bd #<CR>
 nnoremap <leader>bl :ls<CR>
 
 " }}}
-" Plugin Auto-pairs {{{
+" Plugin Autopairs {{{
 
-let g:AutoPairsFlyMode = 1
+let g:AutoPairsShortcutFastWrap=''
 
 " }}}
 " Plugin CtrlP {{{
@@ -538,6 +552,12 @@ let g:user_emmet_settings = {
       \}
 
 " }}}
+" {{{ Plugin fixmyjs
+
+au BufWritePre *.js :Fixmyjs
+au BufWritePre *.jsx :Fixmyjs
+
+" }}}
 " Plugin Gitgutter {{{
 
 let g:gitgutter_max_signs = 5
@@ -568,7 +588,7 @@ noremap <F9> :NERDTreeFind<CR>
 " Plugin pdv {{{
 
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-nnoremap <buffer> <leader>d :call pdv#DocumentWithSnip()<CR>
+nnoremap <leader>dp :call pdv#DocumentWithSnip()<CR>
 
 " }}}
 " Plugin phpfmt {{{
@@ -594,7 +614,7 @@ let g:syntastic_check_on_wq = 1
 
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_php_checkers = [ 'phpcs', ]
-let g:syntastic_scss_checkers = ['scss_lint']
+let g:syntastic_scss_checkers = ['stylelint']
 let g:syntastic_yml_checkers = ['yaml_lint']
 
 let g:syntastic_python_flake8_args='--ignore=E501'
@@ -612,7 +632,7 @@ let g:syntastic_aggregate_errors = 1
 " Plugin Tabularize {{{
 
 " Notice that the \ before the | needs escaping
-nnoremap <leader>p :Tabularize/@\w\+\s\+\zs\S\+\\|\%(@\w\+.*\)\@<=\u.*/<CR>
+nnoremap <leader>pt :Tabularize/@\w\+\s\+\zs\S\+\\|\%(@\w\+.*\)\@<=\u.*/<CR>
 
 " }}}
 " Plugin Tagbar {{{

@@ -8,84 +8,83 @@ filetype off
 " }}}
 "Plugins {{{
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" set rtp+=~/.vim/bundle/Vundle.vim
+call plug#begin()
 
-" Plugin 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
-Plugin '2072/PHP-Indenting-for-VIm' "Up-to-date PHP syntax file
-Plugin 'Lokaltog/vim-easymotion' "Easily move around
-Plugin 'SirVer/ultisnips' "Use snippets
-Plugin 'Solarized' "Color scheme
-Plugin 'StanAngeloff/php.vim' "Up-to-date PHP syntax file
-Plugin 'Valloric/MatchTagAlways' "A Vim plugin that always highlights the enclosing html/xml tags
-Plugin 'Valloric/YouCompleteMe' "A code-completion engine for Vim
-Plugin 'airblade/vim-gitgutter' "Git in the gutter
-Plugin 'airblade/vim-rooter' "Changes Vim working directory to project root
-Plugin 'austintaylor/vim-commaobject' "Add comma as a Vim object
-Plugin 'cakebaker/scss-syntax.vim' "Vim syntax file for scss (Sassy CSS)
-Plugin 'captbaritone/better-indent-support-for-php-with-html' "Better PHP HTML indent
-Plugin 'chaoren/vim-wordmotion' "More useful word motions for Vim
-Plugin 'christoomey/vim-sort-motion' "Vim mapping for sorting a range of text
-Plugin 'christoomey/vim-tmux-navigator' "Seamless navigation between tmux panes and vim splits
-Plugin 'christoomey/vim-tmux-runner' "Vim and tmux, sittin' in a tree...
-Plugin 'ctrlpvim/ctrlp.vim' "Fuzzy file, buffer, mru, tag, etc finder
-Plugin 'dbakker/vim-projectroot' "Find out which project a file belongs to
-Plugin 'digitaltoad/vim-pug' "Vim Pug (formerly Jade) template engine syntax highlighting and indention
-Plugin 'docteurklein/php-getter-setter.vim' "generate php getters and setters from class properties
-Plugin 'dsawardekar/wordpress.vim' "Vim Plugin for WordPress Development
-Plugin 'editorconfig/editorconfig-vim' "EditorConfig plugin for Vim http://editorconfig.org
-Plugin 'elzr/vim-json' "A better JSON for Vim
-Plugin 'epilande/vim-react-snippets' "Vim react snippets
-Plugin 'ervandew/supertab' "Perform all your vim insert mode completions with Tab
-Plugin 'fatih/vim-nginx' "Vim Nginx
-Plugin 'fleischie/vim-styled-components' "Vim bundle for http://styled-components.com based javascript files.
-Plugin 'gmarik/Vundle.vim' "Vundle, the plug-in manager for Vim
-Plugin 'godlygeek/tabular' "Vim script for text filtering and alignment
-Plugin 'greg-js/vim-react-es6-sNIPPets' "Vim ultisnips snippets for React, using es6 syntax
-Plugin 'groenewege/vim-less' "Vim syntax for LESS
-Plugin 'hail2u/vim-css3-syntax' "Add CSS3 syntax support to vim's built-in `syntax/css.vim`
-Plugin 'heavenshell/vim-jsdoc' "Generate JSDoc to your JavaScript code.
-Plugin 'honza/vim-snippets' "Vim-snipmate default snippets
-Plugin 'inkpot' "Color scheme
-Plugin 'jiangmiao/auto-pairs' "Vim plugin to insert or delete brackets, parens and quotes in pairs
-Plugin 'jistr/vim-nerdtree-tabs' "Handle NERDTree tab better
-Plugin 'junegunn/vim-easy-align' "A Vim alignment plugin
-Plugin 'kewah/vim-stylefmt' "Format your stylesheets using stylefmt inside Vim
-Plugin 'lisposter/vim-blackboard' "Color scheme
-Plugin 'majutsushi/tagbar' "Vim plugin that displays tags in a window, ordered by scope.
-Plugin 'matchit.zip' "Configure % to match more than just single characters
-Plugin 'mattn/emmet-vim' "Emmet for vim: http://emmet.io/
-Plugin 'mattn/gist-vim' "Vimscript for gist
-Plugin 'mileszs/ack.vim' "Vim plugin for the Perl module / CLI script 'ack'
-Plugin 'mustache/vim-mustache-handlebars' "mustache and handlebars mode for vim http://mustache.github.io
-Plugin 'mxw/vim-jsx' "React JSX syntax highlighting and indenting for vim.
-Plugin 'othree/html5.vim' "HTML5 omnicomplete and syntax
-Plugin 'pangloss/vim-javascript' "Vastly improved Javascript indentation and syntax support in Vim
-Plugin 'ruanyl/vim-fixmyjs' "Auto fix your javascript using fixmyjs
-Plugin 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
-Plugin 'scrooloose/nerdtree' "A tree explorer plugin for vim
-Plugin 'scrooloose/syntastic' "Vim plugin providing syntax checking for a large variety of programming languages
-Plugin 'shawncplus/phpcomplete.vim' "Improved PHP omnicompletion.
-Plugin 'spktklr/vim-flip-comparands' "Flip two comparands around a comparison operator in Vim
-Plugin 'sudar/vim-wordpress-snippets' "Collection of Vim Snipmate snippets for WordPress.
-Plugin 'terryma/vim-expand-region' "Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination
-Plugin 'terryma/vim-multiple-cursors' "True Sublime Text style multiple selections for Vim
-Plugin 'tobyS/pdv' "PHP Documentor for VIM - Generates PHP docblocks
-Plugin 'tobyS/vmustache' "Required for pdv plugin
-Plugin 'tommcdo/vim-fubitive' "Add Bitbucket URL support to fugitive.vim's :Gbrowse command
-Plugin 'tomtom/tlib_vim' "Some utility functions for VIM
-Plugin 'tpope/vim-abolish' "Easily search for, substitute, and abbreviate multiple variants of a word
-Plugin 'tpope/vim-fugitive' "A git wrapper so awesome, it should be illegal
-Plugin 'tpope/vim-markdown' "Vim Markdown runtime files
-Plugin 'tpope/vim-repeat' "repeat.vim: enable repeating supported plugin maps with '.'
-Plugin 'tpope/vim-surround' "Quoting/parenthesizing made simple.
-Plugin 'vim-airline/vim-airline' "Lean & mean status/tabline for vim that's light as air
-Plugin 'vim-ruby/vim-ruby' "Vim/Ruby Configuration Files
-Plugin 'vim-scripts/open-browser.vim' "Open URI with your favorite browser from your favorite editor.
-Plugin 'weierophinney/argumentrewrap' "Vim plugin to automatically rewrap argument lists to multiple lines
-Plugin 'wikitopian/hardmode' "Vim: Hard Mode
+Plug 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
+Plug '2072/PHP-Indenting-for-VIm', "Up-to-date PHP syntax file
+Plug 'Lokaltog/vim-easymotion' "Easily move around
+Plug 'SirVer/ultisnips' "Use snippets
+Plug 'StanAngeloff/php.vim', "Up-to-date PHP syntax file
+Plug 'Valloric/MatchTagAlways' "A Vim plugin that always highlights the enclosing html/xml tags
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } "A code-completion engine for Vim
+Plug 'airblade/vim-gitgutter' "Git in the gutter
+Plug 'airblade/vim-rooter' "Changes Vim working directory to project root
+Plug 'alampros/vim-styled-jsx' "Vim syntax for [styled-jsx](https://github.com/zeit/styled-jsx)
+Plug 'austintaylor/vim-commaobject' "Add comma as a Vim object
+Plug 'cakebaker/scss-syntax.vim' "Vim syntax file for scss (Sassy CSS)
+Plug 'captbaritone/better-indent-support-for-php-with-html', "Better PHP HTML indent
+Plug 'chaoren/vim-wordmotion' "More useful word motions for Vim
+Plug 'christoomey/vim-sort-motion' "Vim mapping for sorting a range of text
+Plug 'christoomey/vim-tmux-navigator' "Seamless navigation between tmux panes and vim splits
+Plug 'christoomey/vim-tmux-runner' "Vim and tmux, sittin' in a tree...
+Plug 'ctrlpvim/ctrlp.vim' "Fuzzy file, buffer, mru, tag, etc finder
+Plug 'dbakker/vim-projectroot' "Find out which project a file belongs to
+Plug 'digitaltoad/vim-pug', "Vim Pug (formerly Jade) template engine syntax highlighting and indention
+Plug 'docteurklein/php-getter-setter.vim' "generate php getters and setters from class properties
+Plug 'dsawardekar/wordpress.vim', "Vim Plugin for WordPress Development
+Plug 'editorconfig/editorconfig-vim' "EditorConfig plugin for Vim http://editorconfig.org
+Plug 'elzr/vim-json', "A better JSON for Vim
+Plug 'epilande/vim-react-snippets', "Vim react snippets
+Plug 'ervandew/supertab' "Perform all your vim insert mode completions with Tab
+Plug 'fatih/vim-nginx', "Vim Nginx
+Plug 'fleischie/vim-styled-components', "Vim bundle for http://styled-components.com based javascript files.
+Plug 'godlygeek/tabular' "Vim script for text filtering and alignment
+Plug 'greg-js/vim-react-es6-sNIPPets', "Vim ultisnips snippets for React, using es6 syntax
+Plug 'groenewege/vim-less' "Vim syntax for LESS
+Plug 'hail2u/vim-css3-syntax' "Add CSS3 syntax support to vim's built-in `syntax/css.vim`
+Plug 'heavenshell/vim-jsdoc' "Generate JSDoc to your JavaScript code.
+Plug 'honza/vim-snippets' "Vim-snipmate default snippets
+Plug 'jiangmiao/auto-pairs' "Vim plugin to insert or delete brackets, parens and quotes in pairs
+Plug 'jistr/vim-nerdtree-tabs' "Handle NERDTree tab better
+Plug 'jparise/vim-graphql', "A Vim plugin that provides GraphQL file detection, syntax highlighting, and indentation.
+Plug 'junegunn/vim-easy-align' "A Vim alignment plugin
+Plug 'kewah/vim-stylefmt' "Format your stylesheets using stylefmt inside Vim
+Plug 'lisposter/vim-blackboard' "Color scheme
+Plug 'majutsushi/tagbar' "Vim plugin that displays tags in a window, ordered by scope.
+Plug 'mattn/emmet-vim' "Emmet for vim: http://emmet.io/
+Plug 'mattn/gist-vim' "Vimscript for gist
+Plug 'mileszs/ack.vim' "Vim plugin for the Perl module / CLI script 'ack'
+Plug 'mtscout6/syntastic-local-eslint.vim' "Prefer local repo install of eslint over global install with syntastic
+Plug 'mustache/vim-mustache-handlebars' "mustache and handlebars mode for vim http://mustache.github.io
+Plug 'mxw/vim-jsx', "React JSX syntax highlighting and indenting for vim.
+Plug 'othree/html5.vim' "HTML5 omnicomplete and syntax
+Plug 'pangloss/vim-javascript' "Vastly improved Javascript indentation and syntax support in Vim
+Plug 'sbdchd/neoformat' "✨ A (Neo)vim plugin for formatting code.
+Plug 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
+Plug 'scrooloose/nerdtree' "A tree explorer plugin for vim
+Plug 'scrooloose/syntastic' "Vim plugin providing syntax checking for a large variety of programming languages
+Plug 'shawncplus/phpcomplete.vim', "Improved PHP omnicompletion.
+Plug 'spktklr/vim-flip-comparands' "Flip two comparands around a comparison operator in Vim
+Plug 'sudar/vim-wordpress-snippets', "Collection of Vim Snipmate snippets for WordPress.
+Plug 'terryma/vim-expand-region' "Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination
+Plug 'terryma/vim-multiple-cursors' "True Sublime Text style multiple selections for Vim
+Plug 'tobyS/pdv', "PHP Documentor for VIM - Generates PHP docblocks
+Plug 'tobyS/vmustache' "Required for pdv plugin
+Plug 'tommcdo/vim-fubitive' "Add Bitbucket URL support to fugitive.vim's :Gbrowse command
+Plug 'tomtom/tlib_vim' "Some utility functions for VIM
+Plug 'tpope/vim-abolish' "Easily search for, substitute, and abbreviate multiple variants of a word
+Plug 'tpope/vim-fugitive' "A git wrapper so awesome, it should be illegal
+Plug 'tpope/vim-markdown', "Vim Markdown runtime files
+Plug 'tpope/vim-repeat' "repeat.vim: enable repeating supported plugin maps with '.'
+Plug 'tpope/vim-surround' "Quoting/parenthesizing made simple.
+Plug 'vim-airline/vim-airline' "Lean & mean status/tabline for vim that's light as air
+Plug 'vim-ruby/vim-ruby' "Vim/Ruby Configuration Files
+Plug 'vim-scripts/open-browser.vim' "Open URI with your favorite browser from your favorite editor.
+Plug 'weierophinney/argumentrewrap' "Vim plugin to automatically rewrap argument lists to multiple lines
+Plug 'wikitopian/hardmode' "Vim: Hard Mode
 
-call vundle#end()
+call plug#end()
 
 filetype plugin indent on " ensure ftdetect et al work by including this after the Vundle stuff
 
@@ -102,6 +101,19 @@ augroup configgroup
   autocmd BufEnter *.sh setlocal tabstop=2
   autocmd BufEnter *.sh setlocal shiftwidth=2
   autocmd BufEnter *.sh setlocal softtabstop=2
+
+  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " do not comment new lines automatically
+
+  " Automatically fmt styles on save
+  autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :Stylefmt<CR>
+
+  au BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php files
+
+  "set undofile					" Contains undo information so you can undo previous actions even after you close and reopen a file.
+
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+
 augroup END
 
 " }}}
@@ -141,11 +153,7 @@ set autochdir        " auto cd to current file folder
 set shell=zsh\ -l
 
 
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o " do not comment new lines automatically
 
-au BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php files
-
-"set undofile					" Contains undo information so you can undo previous actions even after you close and reopen a file.
 
 " }}}
 " Spaces & Tabs {{{
@@ -399,9 +407,6 @@ let g:PHP_vintage_case_default_indent = 1
 nnoremap <silent> <leader>bc :Stylefmt<CR>
 vnoremap <silent> <leader>bc :StylefmtVisual<CR>
 
-" Automatically fmt styles on save
-autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :Stylefmt<CR>
-
 " }}}
 " JSX {{{
 
@@ -515,7 +520,7 @@ let g:ctrlp_switch_buffer = 'Et'
 let g:ctrlp_working_path_mode = 'r'
 "let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
 "let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|*vendor\|git|\.(o|swp|pyc|egg)$'
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|vagrant|wp-includes|wp-admin|vendor|target)|(\.(swp|ico|svn|DS_Store|ctrlp))$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|.next|vagrant|wp-includes|wp-admin|vendor|target)|(\.(swp|ico|svn|DS_Store|ctrlp))$'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " }}}
@@ -552,20 +557,19 @@ let g:user_emmet_settings = {
       \}
 
 " }}}
-" {{{ Plugin fixmyjs
-
-au BufWritePre *.js :Fixmyjs
-au BufWritePre *.jsx :Fixmyjs
-
-" }}}
 " Plugin Gitgutter {{{
 
-let g:gitgutter_max_signs = 5
+" let g:gitgutter_max_signs = 5
 
 " }}}
 " Plugin Mustache-Handlebars {{{
 
 let g:mustache_abbreviations = 1
+
+" }}}
+" {{{ Plugin Neoformat
+
+let g:neoformat_run_all_formatters = 1
 
 " }}}
 " Plugin NERDCommenter {{{
@@ -593,7 +597,7 @@ nnoremap <leader>dp :call pdv#DocumentWithSnip()<CR>
 " }}}
 " Plugin phpfmt {{{
 
-let g:phpfmt_standard = 'WordPress'
+let g:phpfmt_standard = '/Users/niko/wpcs/WordPress-Core/ruleset.xml'
 
 " }}}
 " {{{ Plugin vim-rooter
@@ -613,19 +617,20 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_wq = 1
 
 let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_php_checkers = [ 'phpcs', ]
+let g:syntastic_php_checkers = [ 'php', 'phpcs', 'phpmd' ]
+let g:syntastic_php_phpcs_args = '--standard=WordPress-Core'
 let g:syntastic_scss_checkers = ['stylelint']
 let g:syntastic_yml_checkers = ['yaml_lint']
 
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_ignore_files = ['.java$']
 
-let g:syntastic_wordpress_checkers = ['phpcs']
-let g:syntastic_wordpress_phpcs_standard = "WordPress" "Default standard
-let g:syntastic_wordpress_phpcs_args="--report=csv --standard=WordPress"
+let g:syntastic_wordpress_checkers = [ 'php', 'phpcs', 'phpmd' ]
+let g:syntastic_wordpress_phpcs_standard = "WordPress-Core" "Default standard
+let g:syntastic_wordpress_phpcs_args="--report=csv --standard=WordPress-Core"
+" let g:syntastic_php_phpmd_args="text codesize"
 
 let g:syntastic_filetype_map = { "php.wordpress": "wordpress" }
-
 let g:syntastic_aggregate_errors = 1
 
 " }}}

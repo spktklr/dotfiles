@@ -1,7 +1,9 @@
-# TO DO
-- More detailed YouCompleteMe workflow
+# New Mac Setup
 
-# DO
+Adapted from various sources.
+
+## Do
+
 Install XCode from App Store
 
 open System Preferences, go to the App Store preference pane, and uncheck all the boxes.
@@ -29,10 +31,12 @@ run the following command in the Terminal:
 xcode-select --install
 
 
-# DO MORE
+## Do more
+
 Run macsetup.sh
 
 Then, add following lines in you .bashrc or .zshrc to wrap brew command:
+
 ```
 if [ -f $(brew --prefix)/etc/brew-wrap ];then
   source $(brew --prefix)/etc/brew-wrap

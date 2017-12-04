@@ -11,7 +11,9 @@ filetype off
 " set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin()
 
-Plug 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
+" Plug 'honza/vim-snippets' "Vim-snipmate default snippets
+" Plug 'mtscout6/syntastic-local-eslint.vim' "Prefer local repo install of eslint over global install with syntastic
+" Plug 'scrooloose/syntastic' "Vim plugin providing syntax checking for a large variety of programming languages
 Plug '2072/PHP-Indenting-for-VIm', "Up-to-date PHP syntax file
 Plug 'Lokaltog/vim-easymotion' "Easily move around
 Plug 'SirVer/ultisnips' "Use snippets
@@ -22,6 +24,7 @@ Plug 'airblade/vim-gitgutter' "Git in the gutter
 Plug 'airblade/vim-rooter' "Changes Vim working directory to project root
 Plug 'alampros/vim-styled-jsx' "Vim syntax for [styled-jsx](https://github.com/zeit/styled-jsx)
 Plug 'austintaylor/vim-commaobject' "Add comma as a Vim object
+Plug 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
 Plug 'cakebaker/scss-syntax.vim' "Vim syntax file for scss (Sassy CSS)
 Plug 'captbaritone/better-indent-support-for-php-with-html', "Better PHP HTML indent
 Plug 'chaoren/vim-wordmotion' "More useful word motions for Vim
@@ -35,16 +38,15 @@ Plug 'docteurklein/php-getter-setter.vim' "generate php getters and setters from
 Plug 'dsawardekar/wordpress.vim', "Vim Plugin for WordPress Development
 Plug 'editorconfig/editorconfig-vim' "EditorConfig plugin for Vim http://editorconfig.org
 Plug 'elzr/vim-json', "A better JSON for Vim
+Plug 'epilande/vim-es2015-snippets', "Vim es2015 snippets
 Plug 'epilande/vim-react-snippets', "Vim react snippets
 Plug 'ervandew/supertab' "Perform all your vim insert mode completions with Tab
 Plug 'fatih/vim-nginx', "Vim Nginx
-Plug 'fleischie/vim-styled-components', "Vim bundle for http://styled-components.com based javascript files.
+Plug 'fleischie/vim-styled-components', { 'branch': 'rewrite' } "Vim bundle for http://styled-components.com based javascript files.
 Plug 'godlygeek/tabular' "Vim script for text filtering and alignment
-Plug 'greg-js/vim-react-es6-sNIPPets', "Vim ultisnips snippets for React, using es6 syntax
 Plug 'groenewege/vim-less' "Vim syntax for LESS
 Plug 'hail2u/vim-css3-syntax' "Add CSS3 syntax support to vim's built-in `syntax/css.vim`
 Plug 'heavenshell/vim-jsdoc' "Generate JSDoc to your JavaScript code.
-Plug 'honza/vim-snippets' "Vim-snipmate default snippets
 Plug 'jiangmiao/auto-pairs' "Vim plugin to insert or delete brackets, parens and quotes in pairs
 Plug 'jistr/vim-nerdtree-tabs' "Handle NERDTree tab better
 Plug 'jparise/vim-graphql', "A Vim plugin that provides GraphQL file detection, syntax highlighting, and indentation.
@@ -55,15 +57,14 @@ Plug 'majutsushi/tagbar' "Vim plugin that displays tags in a window, ordered by 
 Plug 'mattn/emmet-vim' "Emmet for vim: http://emmet.io/
 Plug 'mattn/gist-vim' "Vimscript for gist
 Plug 'mileszs/ack.vim' "Vim plugin for the Perl module / CLI script 'ack'
-Plug 'mtscout6/syntastic-local-eslint.vim' "Prefer local repo install of eslint over global install with syntastic
 Plug 'mustache/vim-mustache-handlebars' "mustache and handlebars mode for vim http://mustache.github.io
 Plug 'mxw/vim-jsx', "React JSX syntax highlighting and indenting for vim.
 Plug 'othree/html5.vim' "HTML5 omnicomplete and syntax
 Plug 'pangloss/vim-javascript' "Vastly improved Javascript indentation and syntax support in Vim
+Plug 'spktklr/vim-hyperstyle' "Write CSS faster
 Plug 'sbdchd/neoformat' "✨ A (Neo)vim plugin for formatting code.
 Plug 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
 Plug 'scrooloose/nerdtree' "A tree explorer plugin for vim
-Plug 'scrooloose/syntastic' "Vim plugin providing syntax checking for a large variety of programming languages
 Plug 'shawncplus/phpcomplete.vim', "Improved PHP omnicompletion.
 Plug 'spktklr/vim-flip-comparands' "Flip two comparands around a comparison operator in Vim
 Plug 'sudar/vim-wordpress-snippets', "Collection of Vim Snipmate snippets for WordPress.
@@ -81,6 +82,7 @@ Plug 'tpope/vim-surround' "Quoting/parenthesizing made simple.
 Plug 'vim-airline/vim-airline' "Lean & mean status/tabline for vim that's light as air
 Plug 'vim-ruby/vim-ruby' "Vim/Ruby Configuration Files
 Plug 'vim-scripts/open-browser.vim' "Open URI with your favorite browser from your favorite editor.
+Plug 'w0rp/ale' "Asynchronous Lint Engine
 Plug 'weierophinney/argumentrewrap' "Vim plugin to automatically rewrap argument lists to multiple lines
 Plug 'wikitopian/hardmode' "Vim: Hard Mode
 
@@ -152,8 +154,7 @@ set scrolloff=5
 set autochdir        " auto cd to current file folder
 set shell=zsh\ -l
 
-
-
+set conceallevel=1 "concealing
 
 " }}}
 " Spaces & Tabs {{{
@@ -441,6 +442,20 @@ set directory=.,$TEMP
 set writebackup
 
 " }}}
+" {{{ Plugin ALE
+"
+let g:airline#extensions#ale#enabled = 1
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
+" let g:ale_fixers = {
+" \   'javascript': ['prettier-eslint'],
+" \}
+let g:ale_sign_column_always = 1
+let g:ale_linters = {'jsx': ['stylelint', 'eslint']}
+let g:ale_linter_aliases = {'jsx': 'css'}
+
+" }}}
 " Plugin Airline {{{
 
 set laststatus=2
@@ -448,7 +463,6 @@ set ttimeoutlen=50
 let g:airline#extensions#tabline#enabled = 1 		" Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' 	" Show just the filename
 "let g:airline_powerline_fonts = 1
-
 " Don't show seperators
 let g:airline_left_sep=''
 let g:airline_right_sep=''
@@ -518,9 +532,7 @@ let g:ctrlp_show_hidden = 1
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 'Et'
 let g:ctrlp_working_path_mode = 'r'
-"let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
-"let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|*vendor\|git|\.(o|swp|pyc|egg)$'
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|.next|vagrant|wp-includes|wp-admin|vendor|target)|(\.(swp|ico|svn|DS_Store|ctrlp))$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|.next|vagrant|build|wp-includes|wp-admin|vendor|target)|(\.(swp|ico|svn|DS_Store|ctrlp))$'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " }}}
@@ -559,7 +571,12 @@ let g:user_emmet_settings = {
 " }}}
 " Plugin Gitgutter {{{
 
-" let g:gitgutter_max_signs = 5
+let g:gitgutter_max_signs = 50
+
+" }}}
+" Plugin javascript {{{
+
+let g:javascript_plugin_jsdoc = 1
 
 " }}}
 " Plugin Mustache-Handlebars {{{
@@ -607,31 +624,31 @@ let g:rooter_patterns = ['Rakefile', '.git/']
 " }}}
 " Plugin Syntastic {{{
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_check_on_open = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_wq = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 2
+" let g:syntastic_check_on_wq = 1
 
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_php_checkers = [ 'php', 'phpcs', 'phpmd' ]
-let g:syntastic_php_phpcs_args = '--standard=WordPress-Core'
-let g:syntastic_scss_checkers = ['stylelint']
-let g:syntastic_yml_checkers = ['yaml_lint']
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_php_checkers = [ 'php', 'phpcs', 'phpmd' ]
+" let g:syntastic_php_phpcs_args = '--standard=WordPress-Core'
+" let g:syntastic_scss_checkers = ['stylelint']
+" let g:syntastic_yml_checkers = ['yaml_lint']
 
-let g:syntastic_python_flake8_args='--ignore=E501'
-let g:syntastic_ignore_files = ['.java$']
+" let g:syntastic_python_flake8_args='--ignore=E501'
+" let g:syntastic_ignore_files = ['.java$']
 
-let g:syntastic_wordpress_checkers = [ 'php', 'phpcs', 'phpmd' ]
-let g:syntastic_wordpress_phpcs_standard = "WordPress-Core" "Default standard
-let g:syntastic_wordpress_phpcs_args="--report=csv --standard=WordPress-Core"
+" let g:syntastic_wordpress_checkers = [ 'php', 'phpcs', 'phpmd' ]
+" let g:syntastic_wordpress_phpcs_standard = "WordPress-Core" "Default standard
+" let g:syntastic_wordpress_phpcs_args="--report=csv --standard=WordPress-Core"
 " let g:syntastic_php_phpmd_args="text codesize"
 
-let g:syntastic_filetype_map = { "php.wordpress": "wordpress" }
-let g:syntastic_aggregate_errors = 1
+" let g:syntastic_filetype_map = { "php.wordpress": "wordpress" }
+" let g:syntastic_aggregate_errors = 1
 
 " }}}
 " Plugin Tabularize {{{
@@ -708,28 +725,6 @@ function! ToggleNumber()
     set number
   else
     set relativenumber
-  endif
-endfunction
-
-function! RunTestFile()
-  if(&ft=='python')
-    exec ":!" . ". venv/bin/activate; nosetests " .bufname('%') . " --stop"
-  endif
-endfunction
-
-function! RunGoFile()
-  if(&ft=='go')
-    exec ":new|0read ! go run " . bufname('%')
-  endif
-endfunction
-
-function! RunTestsInFile()
-  if(&ft=='php')
-    :execute "!" . "/Users/dblack/pear/bin/phpunit -d memory_limit=512M -c /usr/local/twilio/src/php/tests/config.xml --bootstrap /usr/local/twilio/src/php/tests/bootstrap.php " . bufname('%') . ' \| grep -v Configuration \| egrep -v "^$" '
-  elseif(&ft=='go')
-    exec ":!gp test"
-  elseif(&ft=='python')
-    exec ":read !" . ". venv/bin/activate; nosetests " . bufname('%') . " --nocapture"
   endif
 endfunction
 

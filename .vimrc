@@ -11,9 +11,6 @@ filetype off
 " set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin()
 
-" Plug 'honza/vim-snippets' "Vim-snipmate default snippets
-" Plug 'mtscout6/syntastic-local-eslint.vim' "Prefer local repo install of eslint over global install with syntastic
-" Plug 'scrooloose/syntastic' "Vim plugin providing syntax checking for a large variety of programming languages
 Plug '2072/PHP-Indenting-for-VIm', "Up-to-date PHP syntax file
 Plug 'Lokaltog/vim-easymotion' "Easily move around
 Plug 'SirVer/ultisnips' "Use snippets
@@ -47,6 +44,7 @@ Plug 'godlygeek/tabular' "Vim script for text filtering and alignment
 Plug 'groenewege/vim-less' "Vim syntax for LESS
 Plug 'hail2u/vim-css3-syntax' "Add CSS3 syntax support to vim's built-in `syntax/css.vim`
 Plug 'heavenshell/vim-jsdoc' "Generate JSDoc to your JavaScript code.
+Plug 'jeetsukumaran/vim-buffergator' "More useful word motions for Vim
 Plug 'jiangmiao/auto-pairs' "Vim plugin to insert or delete brackets, parens and quotes in pairs
 Plug 'jistr/vim-nerdtree-tabs' "Handle NERDTree tab better
 Plug 'jparise/vim-graphql', "A Vim plugin that provides GraphQL file detection, syntax highlighting, and indentation.
@@ -61,7 +59,6 @@ Plug 'mustache/vim-mustache-handlebars' "mustache and handlebars mode for vim ht
 Plug 'mxw/vim-jsx', "React JSX syntax highlighting and indenting for vim.
 Plug 'othree/html5.vim' "HTML5 omnicomplete and syntax
 Plug 'pangloss/vim-javascript' "Vastly improved Javascript indentation and syntax support in Vim
-Plug 'spktklr/vim-hyperstyle' "Write CSS faster
 Plug 'sbdchd/neoformat' "✨ A (Neo)vim plugin for formatting code.
 Plug 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
 Plug 'scrooloose/nerdtree' "A tree explorer plugin for vim
@@ -159,17 +156,8 @@ set conceallevel=1 "concealing
 " }}}
 " Spaces & Tabs {{{
 
-set tabstop=4           		" 4 space tab
-set softtabstop=4       		" 4 space tab
-" set expandtab           		" use spaces for tabs
-" set shiftwidth=4
-" set modelines=1
-" filetype indent on
-" filetype plugin on
-" set autoindent
-" set breakindent
-
-" au FileType php :set expandtab!
+set tabstop=4
+set softtabstop=4
 
 " }}}
 " UI Layout {{{
@@ -228,13 +216,10 @@ nnoremap / /\v
 vnoremap / /\v
 set ignorecase
 set smartcase
-"set gdefault
 set incsearch
 set showmatch
 set hlsearch
 nnoremap <leader><space> :noh<cr>
-"nnoremap <tab> %
-"vnoremap <tab> %
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap - -
 vnoremap -- y/<C-R>"<CR>"
@@ -248,7 +233,7 @@ set modelines=1
 nnoremap <space> za
 
 " }}}
-" Line Shortcuts {{{
+" Mappings {{{
 
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
@@ -340,13 +325,12 @@ vnoremap ä ]
 vnoremap ö [
 
 " }}}
-" Leader Shortcuts {{{
+" Leader mappings {{{
 
 let mapleader=","
 nnoremap <leader>1 :set number!<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>a :Ack
-nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 " Search the WP Codex with WordPress Vim
 nnoremap <leader>co :Wcodexsearch<CR>
 nnoremap <leader>dj :JsDoc<CR>
@@ -385,6 +369,18 @@ nmap <Leader>P "+P
 " vmap <Leader>p "+p
 vmap <Leader>P "+P
 
+" To open a new empty buffer
+nnoremap <leader>T :enew<cr>
+
+" Move to the next buffer
+nnoremap <leader>l :bnext<CR>
+
+" Move to the previous buffer
+nnoremap <leader>h :bprevious<CR>
+
+" Close the current buffer and move to the previous one
+nnoremap <leader>w :bp <BAR> bd #<CR>
+
 " }}}
 " Ack {{{
 
@@ -403,12 +399,6 @@ endif
 let g:PHP_vintage_case_default_indent = 1
 
 " }}}
-" Stylefmt {{{
-
-nnoremap <silent> <leader>bc :Stylefmt<CR>
-vnoremap <silent> <leader>bc :StylefmtVisual<CR>
-
-" }}}
 " JSX {{{
 
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
@@ -423,14 +413,6 @@ nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
-
-"if exists('$TMUX') " allows cursor change in tmux mode
-"    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-"    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-"else
-"    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-"    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-"endif
 
 "" }}}
 " Backups {{{
@@ -447,13 +429,18 @@ set writebackup
 let g:airline#extensions#ale#enabled = 1
 let g:ale_linters = {
 \   'javascript': ['eslint'],
+\   'jsx': ['stylelint', 'eslint'],
+\   'php': ['phpcbf', 'phpcs'],
 \}
 " let g:ale_fixers = {
 " \   'javascript': ['prettier-eslint'],
 " \}
-let g:ale_sign_column_always = 1
-let g:ale_linters = {'jsx': ['stylelint', 'eslint']}
 let g:ale_linter_aliases = {'jsx': 'css'}
+let g:ale_php_phpcbf_standard = 'WordPress-Core'
+let g:ale_php_phpcs_standard = 'WordPress-Core'
+let g:ale_php_phpcbf_use_global = 1
+let g:ale_php_phpcs_use_global = 1
+let g:ale_sign_column_always = 1
 
 " }}}
 " Plugin Airline {{{
@@ -462,62 +449,9 @@ set laststatus=2
 set ttimeoutlen=50
 let g:airline#extensions#tabline#enabled = 1 		" Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod = ':t' 	" Show just the filename
-"let g:airline_powerline_fonts = 1
 " Don't show seperators
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-
-"if !exists('g:airline_symbols')
-"let g:airline_symbols = {}
-"endif
-
-"let g:airline_left_sep = "\u2b80" "use double quotes here
-"let g:airline_left_alt_sep = "\u2b81"
-"let g:airline_right_sep = "\u2b82"
-"let g:airline_right_alt_sep = "\u2b83"
-"let g:airline_symbols.branch = "\u2b60"
-"let g:airline_symbols.readonly = "\u2b64"
-"let g:airline_symbols.linenr = "\u2b61"
-
-" powerline symbols
-"let g:airline_left_sep = '?'
-"let g:airline_left_alt_sep = '?'
-"let g:airline_right_sep = '?'
-"let g:airline_right_alt_sep = '?'
-"let g:airline_symbols.branch = '?'
-"let g:airline_symbols.readonly = '?'
-"let g:airline_symbols.linenr = '?'
-
-"let g:airline_left_sep = '»'
-"let g:airline_left_sep = '?'
-"let g:airline_right_sep = '«'
-"let g:airline_right_sep = '?'
-"let g:airline_symbols.crypt = '??'
-"let g:airline_symbols.linenr = '?'
-"let g:airline_symbols.linenr = '?'
-"let g:airline_symbols.linenr = '¶'
-"let g:airline_symbols.branch = '?'
-"let g:airline_symbols.paste = '?'
-"let g:airline_symbols.paste = 'Þ'
-"let g:airline_symbols.paste = '?'
-"let g:airline_symbols.whitespace = '?'
-
-" To open a new empty buffer
-" This replaces :tabnew which I used to bind to this mapping
-nnoremap <leader>T :enew<cr>
-
-" Move to the next buffer
-nnoremap <leader>l :bnext<CR>
-
-" Move to the previous buffer
-nnoremap <leader>h :bprevious<CR>
-
-" Close the current buffer and move to the previous one
-" This replicates the idea of closing a tab
-nnoremap <leader>w :bp <BAR> bd #<CR>
-
-" Show all open buffers and their status
-nnoremap <leader>bl :ls<CR>
 
 " }}}
 " Plugin Autopairs {{{
@@ -548,7 +482,6 @@ if !exists('g:easy_align_delimiters')
   let g:easy_align_delimiters = {}
 endif
 
-"\ 'pattern': '@\w+\K(  )|string\K(  )|int\K(  )|mixed\K(  )|array\K(  )|\$\w+\K(  )',
 let g:easy_align_delimiters['d'] = {
       \ 'pattern': '(@\w+|string|int|mixed|array|\$\w+|\d+.*|[A-Z].+\.)',
       \ 'left_margin': 0, 'right_margin': 0
@@ -622,38 +555,8 @@ let g:phpfmt_standard = '/Users/niko/wpcs/WordPress-Core/ruleset.xml'
 let g:rooter_patterns = ['Rakefile', '.git/']
 
 " }}}
-" Plugin Syntastic {{{
-
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 2
-" let g:syntastic_check_on_wq = 1
-
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_php_checkers = [ 'php', 'phpcs', 'phpmd' ]
-" let g:syntastic_php_phpcs_args = '--standard=WordPress-Core'
-" let g:syntastic_scss_checkers = ['stylelint']
-" let g:syntastic_yml_checkers = ['yaml_lint']
-
-" let g:syntastic_python_flake8_args='--ignore=E501'
-" let g:syntastic_ignore_files = ['.java$']
-
-" let g:syntastic_wordpress_checkers = [ 'php', 'phpcs', 'phpmd' ]
-" let g:syntastic_wordpress_phpcs_standard = "WordPress-Core" "Default standard
-" let g:syntastic_wordpress_phpcs_args="--report=csv --standard=WordPress-Core"
-" let g:syntastic_php_phpmd_args="text codesize"
-
-" let g:syntastic_filetype_map = { "php.wordpress": "wordpress" }
-" let g:syntastic_aggregate_errors = 1
-
-" }}}
 " Plugin Tabularize {{{
 
-" Notice that the \ before the | needs escaping
 nnoremap <leader>pt :Tabularize/@\w\+\s\+\zs\S\+\\|\%(@\w\+.*\)\@<=\u.*/<CR>
 
 " }}}

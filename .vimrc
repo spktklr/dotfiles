@@ -1,9 +1,6 @@
 " {{{ Init
 
-set nocompatible			" be iMproved, required
 set encoding=utf-8
-filetype on 					" without this vim emits a zero exit status, later, because of :ft off
-filetype off
 
 " }}}
 "Plugins {{{
@@ -59,7 +56,6 @@ Plug 'mustache/vim-mustache-handlebars' "mustache and handlebars mode for vim ht
 Plug 'mxw/vim-jsx', "React JSX syntax highlighting and indenting for vim.
 Plug 'othree/html5.vim' "HTML5 omnicomplete and syntax
 Plug 'pangloss/vim-javascript' "Vastly improved Javascript indentation and syntax support in Vim
-Plug 'sbdchd/neoformat' "✨ A (Neo)vim plugin for formatting code.
 Plug 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
 Plug 'scrooloose/nerdtree' "A tree explorer plugin for vim
 Plug 'shawncplus/phpcomplete.vim', "Improved PHP omnicompletion.
@@ -96,7 +92,7 @@ augroup configgroup
   autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb :call <SID>StripTrailingWhitespaces()
   autocmd BufEnter *.cls setlocal filetype=java
   autocmd BufEnter *.zsh-theme setlocal filetype=zsh
-  autocmd BufEnter Makefile setlocal noexpandtab
+  " autocmd BufEnter Makefile setlocal noexpandtab
   autocmd BufEnter *.sh setlocal tabstop=2
   autocmd BufEnter *.sh setlocal shiftwidth=2
   autocmd BufEnter *.sh setlocal softtabstop=2
@@ -106,26 +102,20 @@ augroup configgroup
   " Automatically fmt styles on save
   autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :Stylefmt<CR>
 
-  au BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php files
+  autocmd BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php files
 
   "set undofile					" Contains undo information so you can undo previous actions even after you close and reopen a file.
-
-  autocmd!
-  autocmd BufWritePre * undojoin | Neoformat
 
 augroup END
 
 " }}}
 " Colors {{{
 
-syntax enable           		" enable syntax processing
+syntax on
 
 if !has("gui_running")
-  set term=xterm-256color
   let &t_AB="\e[48;5;%dm"
   let &t_AF="\e[38;5;%dm"
-  set t_Co=256
-  syntax on
   set background=dark
   colorscheme blackboard
 else
@@ -432,9 +422,11 @@ let g:ale_linters = {
 \   'jsx': ['stylelint', 'eslint'],
 \   'php': ['phpcbf', 'phpcs'],
 \}
-" let g:ale_fixers = {
-" \   'javascript': ['prettier-eslint'],
-" \}
+let g:ale_fixers = {
+\   'php': ['phpcbf'],
+\   'javascript': ['prettier'],
+\}
+let g:ale_fix_on_save = 1
 let g:ale_linter_aliases = {'jsx': 'css'}
 let g:ale_php_phpcbf_standard = 'WordPress-Core'
 let g:ale_php_phpcs_standard = 'WordPress-Core'
@@ -517,11 +509,6 @@ let g:javascript_plugin_jsdoc = 1
 let g:mustache_abbreviations = 1
 
 " }}}
-" {{{ Plugin Neoformat
-
-let g:neoformat_run_all_formatters = 1
-
-" }}}
 " Plugin NERDCommenter {{{
 
 let NERDSpaceDelims=1
@@ -548,6 +535,7 @@ nnoremap <leader>dp :call pdv#DocumentWithSnip()<CR>
 " Plugin phpfmt {{{
 
 let g:phpfmt_standard = '/Users/niko/wpcs/WordPress-Core/ruleset.xml'
+let g:phpfmt_command = 'phpcbf'
 
 " }}}
 " {{{ Plugin vim-rooter

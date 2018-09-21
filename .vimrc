@@ -8,6 +8,7 @@ set encoding=utf-8
 " set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin()
 
+"Plug 'flowtype/vim-flow' "A vim plugin for Flow
 Plug '2072/PHP-Indenting-for-VIm', "Up-to-date PHP syntax file
 Plug 'Lokaltog/vim-easymotion' "Easily move around
 Plug 'SirVer/ultisnips' "Use snippets
@@ -36,7 +37,7 @@ Plug 'epilande/vim-es2015-snippets', "Vim es2015 snippets
 Plug 'epilande/vim-react-snippets', "Vim react snippets
 Plug 'ervandew/supertab' "Perform all your vim insert mode completions with Tab
 Plug 'fatih/vim-nginx', "Vim Nginx
-Plug 'fleischie/vim-styled-components', { 'branch': 'rewrite' } "Vim bundle for http://styled-components.com based javascript files.
+Plug 'fleischie/vim-styled-components' "Vim bundle for http://styled-components.com based javascript files.
 Plug 'godlygeek/tabular' "Vim script for text filtering and alignment
 Plug 'groenewege/vim-less' "Vim syntax for LESS
 Plug 'hail2u/vim-css3-syntax' "Add CSS3 syntax support to vim's built-in `syntax/css.vim`
@@ -61,6 +62,7 @@ Plug 'scrooloose/nerdtree' "A tree explorer plugin for vim
 Plug 'shawncplus/phpcomplete.vim', "Improved PHP omnicompletion.
 Plug 'spktklr/vim-flip-comparands' "Flip two comparands around a comparison operator in Vim
 Plug 'sudar/vim-wordpress-snippets', "Collection of Vim Snipmate snippets for WordPress.
+Plug 'ternjs/tern_for_vim', "Tern plugin for vim
 Plug 'terryma/vim-expand-region' "Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination
 Plug 'terryma/vim-multiple-cursors' "True Sublime Text style multiple selections for Vim
 Plug 'tobyS/pdv', "PHP Documentor for VIM - Generates PHP docblocks
@@ -502,6 +504,12 @@ let g:gitgutter_max_signs = 50
 " Plugin javascript {{{
 
 let g:javascript_plugin_jsdoc = 1
+let g:jsdoc_allow_input_prompt = 0
+" let g:jsdoc_input_description = 1
+" let g:jsdoc_additional_descriptions = 0
+" let g:jsdoc_return_type = 1
+" let g:jsdoc_return_description = 1
+let g:jsdoc_enable_es6 = 1
 
 " }}}
 " Plugin Mustache-Handlebars {{{

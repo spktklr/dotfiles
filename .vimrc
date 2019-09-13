@@ -3,89 +3,53 @@
 set encoding=utf-8
 
 " }}}
-"Plugins {{{
+"Plugins
 
 " set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin()
 
-"Plug 'flowtype/vim-flow' "A vim plugin for Flow
-Plug '2072/PHP-Indenting-for-VIm', "Up-to-date PHP syntax file
 Plug 'Lokaltog/vim-easymotion' "Easily move around
-Plug 'SirVer/ultisnips' "Use snippets
-Plug 'StanAngeloff/php.vim', "Up-to-date PHP syntax file
 Plug 'Valloric/MatchTagAlways' "A Vim plugin that always highlights the enclosing html/xml tags
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } "A code-completion engine for Vim
 Plug 'airblade/vim-gitgutter' "Git in the gutter
-Plug 'airblade/vim-rooter' "Changes Vim working directory to project root
-Plug 'alampros/vim-styled-jsx' "Vim syntax for [styled-jsx](https://github.com/zeit/styled-jsx)
+" Plug 'airblade/vim-rooter' "Changes Vim working directory to project root
 Plug 'austintaylor/vim-commaobject' "Add comma as a Vim object
-Plug 'beanworks/vim-phpfmt' "PHP (phpcbf) auto format plugin for vim
-Plug 'cakebaker/scss-syntax.vim' "Vim syntax file for scss (Sassy CSS)
-Plug 'captbaritone/better-indent-support-for-php-with-html', "Better PHP HTML indent
 Plug 'chaoren/vim-wordmotion' "More useful word motions for Vim
 Plug 'christoomey/vim-sort-motion' "Vim mapping for sorting a range of text
 Plug 'christoomey/vim-tmux-navigator' "Seamless navigation between tmux panes and vim splits
 Plug 'christoomey/vim-tmux-runner' "Vim and tmux, sittin' in a tree...
 Plug 'ctrlpvim/ctrlp.vim' "Fuzzy file, buffer, mru, tag, etc finder
-Plug 'dbakker/vim-projectroot' "Find out which project a file belongs to
-Plug 'digitaltoad/vim-pug', "Vim Pug (formerly Jade) template engine syntax highlighting and indention
-Plug 'docteurklein/php-getter-setter.vim' "generate php getters and setters from class properties
 Plug 'dsawardekar/wordpress.vim', "Vim Plugin for WordPress Development
-Plug 'editorconfig/editorconfig-vim' "EditorConfig plugin for Vim http://editorconfig.org
-Plug 'elzr/vim-json', "A better JSON for Vim
-Plug 'epilande/vim-es2015-snippets', "Vim es2015 snippets
-Plug 'epilande/vim-react-snippets', "Vim react snippets
-Plug 'ervandew/supertab' "Perform all your vim insert mode completions with Tab
-Plug 'fatih/vim-nginx', "Vim Nginx
-Plug 'fleischie/vim-styled-components' "Vim bundle for http://styled-components.com based javascript files.
 Plug 'godlygeek/tabular' "Vim script for text filtering and alignment
-Plug 'groenewege/vim-less' "Vim syntax for LESS
-Plug 'hail2u/vim-css3-syntax' "Add CSS3 syntax support to vim's built-in `syntax/css.vim`
 Plug 'heavenshell/vim-jsdoc' "Generate JSDoc to your JavaScript code.
-Plug 'jeetsukumaran/vim-buffergator' "More useful word motions for Vim
-Plug 'jiangmiao/auto-pairs' "Vim plugin to insert or delete brackets, parens and quotes in pairs
-Plug 'jistr/vim-nerdtree-tabs' "Handle NERDTree tab better
-Plug 'jparise/vim-graphql', "A Vim plugin that provides GraphQL file detection, syntax highlighting, and indentation.
 Plug 'junegunn/vim-easy-align' "A Vim alignment plugin
-Plug 'kewah/vim-stylefmt' "Format your stylesheets using stylefmt inside Vim
 Plug 'lisposter/vim-blackboard' "Color scheme
 Plug 'majutsushi/tagbar' "Vim plugin that displays tags in a window, ordered by scope.
 Plug 'mattn/emmet-vim' "Emmet for vim: http://emmet.io/
 Plug 'mattn/gist-vim' "Vimscript for gist
 Plug 'mileszs/ack.vim' "Vim plugin for the Perl module / CLI script 'ack'
-Plug 'mustache/vim-mustache-handlebars' "mustache and handlebars mode for vim http://mustache.github.io
-Plug 'mxw/vim-jsx', "React JSX syntax highlighting and indenting for vim.
-Plug 'othree/html5.vim' "HTML5 omnicomplete and syntax
-Plug 'pangloss/vim-javascript' "Vastly improved Javascript indentation and syntax support in Vim
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 Plug 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
 Plug 'scrooloose/nerdtree' "A tree explorer plugin for vim
-Plug 'shawncplus/phpcomplete.vim', "Improved PHP omnicompletion.
+Plug 'sheerun/vim-polyglot' "A solid language pack for Vim.
 Plug 'spktklr/vim-flip-comparands' "Flip two comparands around a comparison operator in Vim
-Plug 'sudar/vim-wordpress-snippets', "Collection of Vim Snipmate snippets for WordPress.
-Plug 'ternjs/tern_for_vim', "Tern plugin for vim
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' } "Vim bundle for http://styled-components.com based javascript files.
 Plug 'terryma/vim-expand-region' "Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination
-Plug 'terryma/vim-multiple-cursors' "True Sublime Text style multiple selections for Vim
 Plug 'tobyS/pdv', "PHP Documentor for VIM - Generates PHP docblocks
 Plug 'tobyS/vmustache' "Required for pdv plugin
 Plug 'tommcdo/vim-fubitive' "Add Bitbucket URL support to fugitive.vim's :Gbrowse command
 Plug 'tomtom/tlib_vim' "Some utility functions for VIM
 Plug 'tpope/vim-abolish' "Easily search for, substitute, and abbreviate multiple variants of a word
 Plug 'tpope/vim-fugitive' "A git wrapper so awesome, it should be illegal
-Plug 'tpope/vim-markdown', "Vim Markdown runtime files
 Plug 'tpope/vim-repeat' "repeat.vim: enable repeating supported plugin maps with '.'
 Plug 'tpope/vim-surround' "Quoting/parenthesizing made simple.
 Plug 'vim-airline/vim-airline' "Lean & mean status/tabline for vim that's light as air
-Plug 'vim-ruby/vim-ruby' "Vim/Ruby Configuration Files
-Plug 'vim-scripts/open-browser.vim' "Open URI with your favorite browser from your favorite editor.
 Plug 'w0rp/ale' "Asynchronous Lint Engine
-Plug 'weierophinney/argumentrewrap' "Vim plugin to automatically rewrap argument lists to multiple lines
-Plug 'wikitopian/hardmode' "Vim: Hard Mode
 
 call plug#end()
 
 filetype plugin indent on " ensure ftdetect et al work by including this after the Vundle stuff
 
-" }}}
+"
 " AutoGroups {{{
 
 augroup configgroup
@@ -137,6 +101,14 @@ set backspace=indent,eol,start
 set hidden           " hides buffers instead of closing them
 set history=1000     " remember more commands and search history
 set undolevels=1000  " use many muchos levels of undo
+" Some servers have issues with backup files
+set nobackup
+set nowritebackup
+" 
+set cmdheight=2 " Better display for messages
+set updatetime=300 " Smaller updatetime for CursorHold & CursorHoldI
+set shortmess+=c " don't give |ins-completion-menu| messages.
+set signcolumn=yes " always show signcolumns
 set noswapfile
 set linebreak
 set scrolloff=5
@@ -148,8 +120,9 @@ set conceallevel=1 "concealing
 " }}}
 " Spaces & Tabs {{{
 
-set tabstop=4
-set softtabstop=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 
 " }}}
 " UI Layout {{{
@@ -281,10 +254,10 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 "Edit scandi layout
-inoremap Ä <C-R>=AutoPairsInsert("\}")<CR>
-inoremap Ö <C-R>=AutoPairsInsert("\{")<CR>
-inoremap ä <C-R>=AutoPairsInsert("\]")<CR>
-inoremap ö <C-R>=AutoPairsInsert("\[")<CR>
+" inoremap Ä <C-R>=AutoPairsInsert("\}")<CR>
+" inoremap Ö <C-R>=AutoPairsInsert("\{")<CR>
+" inoremap ä <C-R>=AutoPairsInsert("\]")<CR>
+" inoremap ö <C-R>=AutoPairsInsert("\[")<CR>
 
 nnoremap " @
 nnoremap & ^
@@ -421,12 +394,19 @@ set writebackup
 let g:airline#extensions#ale#enabled = 1
 let g:ale_linters = {
 \   'javascript': ['eslint'],
+\   'json': ['prettier', 'eslint'],
 \   'jsx': ['stylelint', 'eslint'],
+\   'scss': ['stylelint', 'eslint'],
 \   'php': ['phpcbf', 'phpcs'],
+\   'yaml': ['yamllint', 'prettier'],
 \}
 let g:ale_fixers = {
 \   'php': ['phpcbf'],
-\   'javascript': ['prettier'],
+\   'javascript': ['prettier', 'eslint'],
+\   'json': ['prettier', 'eslint'],
+\   'scss': ['prettier'],
+\   'sass': ['prettier'],
+\   'yaml': ['prettier'],
 \}
 let g:ale_fix_on_save = 1
 let g:ale_linter_aliases = {'jsx': 'css'}
@@ -435,6 +415,7 @@ let g:ale_php_phpcs_standard = 'WordPress-Core'
 let g:ale_php_phpcbf_use_global = 1
 let g:ale_php_phpcs_use_global = 1
 let g:ale_sign_column_always = 1
+let g:ale_cache_executable_check_failures = 1
 
 " }}}
 " Plugin Airline {{{
@@ -450,7 +431,43 @@ let g:airline_right_sep=''
 " }}}
 " Plugin Autopairs {{{
 
-let g:AutoPairsShortcutFastWrap=''
+" let g:AutoPairsShortcutFastWrap=''
+
+" }}}
+" {{{ Plugin Coc
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+let g:coc_snippet_next = '<tab>'
 
 " }}}
 " Plugin CtrlP {{{
@@ -504,12 +521,13 @@ let g:gitgutter_max_signs = 50
 " Plugin javascript {{{
 
 let g:javascript_plugin_jsdoc = 1
-let g:jsdoc_allow_input_prompt = 0
-" let g:jsdoc_input_description = 1
-" let g:jsdoc_additional_descriptions = 0
-" let g:jsdoc_return_type = 1
-" let g:jsdoc_return_description = 1
+let g:jsdoc_additional_descriptions = 1
+let g:jsdoc_allow_input_prompt = 1
 let g:jsdoc_enable_es6 = 1
+let g:jsdoc_input_description = 1
+let g:jsdoc_return_description = 1
+let g:jsdoc_return_type = 1
+let g:jsdoc_underscore_private = 1
 
 " }}}
 " Plugin Mustache-Handlebars {{{
@@ -525,7 +543,7 @@ let NERDSpaceDelims=1
 " Plugin NERDTree {{{
 
 let g:NERDTreeWinSize = 40
-let NERDTreeIgnore = ['\.pyc$', 'venv', 'egg', 'egg-info/', 'tags', 'DS_Store']
+let NERDTreeIgnore = ['\.pyc$', 'venv', 'egg', 'egg-info/', 'DS_Store']
 let NERDTreeShowHidden=1
 " Toggle nerdtree with F10
 noremap <F10> :NERDTreeToggle<CR>
@@ -546,11 +564,6 @@ let g:phpfmt_standard = '/Users/niko/wpcs/WordPress-Core/ruleset.xml'
 let g:phpfmt_command = 'phpcbf'
 
 " }}}
-" {{{ Plugin vim-rooter
-
-let g:rooter_patterns = ['Rakefile', '.git/']
-
-" }}}
 " Plugin Tabularize {{{
 
 nnoremap <leader>pt :Tabularize/@\w\+\s\+\zs\S\+\\|\%(@\w\+.*\)\@<=\u.*/<CR>
@@ -559,24 +572,6 @@ nnoremap <leader>pt :Tabularize/@\w\+\s\+\zs\S\+\\|\%(@\w\+.*\)\@<=\u.*/<CR>
 " Plugin Tagbar {{{
 
 nnoremap <F8> :TagbarToggle<CR>
-
-" }}}
-" Plugin UltiSnips {{{
-
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-" correct snippets dir
-let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
-
-" }}}
-" Plugin YouCompleteMe {{{
-
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " }}}
 " Custom Functions {{{

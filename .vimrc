@@ -10,6 +10,7 @@ call plug#begin()
 
 " Plug 'airblade/vim-rooter' "Changes Vim working directory to project root
 Plug 'Lokaltog/vim-easymotion' "Easily move around
+Plug 'sainnhe/sonokai'
 Plug 'Rican7/php-doc-modded', "An updated, modified version of the original PDV (phpDocumentor for Vim).
 Plug 'Valloric/MatchTagAlways' "A Vim plugin that always highlights the enclosing html/xml tags
 Plug 'airblade/vim-gitgutter' "Git in the gutter
@@ -18,10 +19,14 @@ Plug 'chaoren/vim-wordmotion' "More useful word motions for Vim
 Plug 'christoomey/vim-sort-motion' "Vim mapping for sorting a range of text
 Plug 'christoomey/vim-tmux-navigator' "Seamless navigation between tmux panes and vim splits
 Plug 'christoomey/vim-tmux-runner' "Vim and tmux, sittin' in a tree...
-Plug 'ctrlpvim/ctrlp.vim' "Fuzzy file, buffer, mru, tag, etc finder
+Plug 'ctrlpvim/ctrlp.vim' "Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
+Plug 'dense-analysis/ale' "Asynchronous Lint Engine
 Plug 'dsawardekar/wordpress.vim', "Vim Plugin for WordPress Development
 Plug 'godlygeek/tabular' "Vim script for text filtering and alignment
-Plug 'heavenshell/vim-jsdoc' "Generate JSDoc to your JavaScript code.
+Plug 'heavenshell/vim-jsdoc', { 
+  \ 'for': ['javascript', 'javascript.jsx','typescript'], 
+  \ 'do': 'make install'
+\} "Generate JSDoc to your JavaScript code.
 Plug 'junegunn/vim-easy-align' "A Vim alignment plugin
 Plug 'lisposter/vim-blackboard' "Color scheme
 Plug 'majutsushi/tagbar' "Vim plugin that displays tags in a window, ordered by scope.
@@ -30,21 +35,19 @@ Plug 'mattn/gist-vim' "Vimscript for gist
 Plug 'mileszs/ack.vim' "Vim plugin for the Perl module / CLI script 'ack'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
-Plug 'scrooloose/nerdtree' "A tree explorer plugin for vim
 Plug 'sheerun/vim-polyglot' "A solid language pack for Vim.
 Plug 'spktklr/vim-flip-comparands' "Flip two comparands around a comparison operator in Vim
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' } "Vim bundle for http://styled-components.com based javascript files.
 Plug 'terryma/vim-expand-region' "Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination
 Plug 'tobyS/vmustache' "Required for pdv plugin
-Plug 'tommcdo/vim-fubitive' "Add Bitbucket URL support to fugitive.vim's :Gbrowse command
 Plug 'tomtom/tlib_vim' "Some utility functions for VIM
+" Plug 'tommcdo/vim-fubitive' "Required for pdv plugin
 Plug 'tpope/vim-abolish' "Easily search for, substitute, and abbreviate multiple variants of a word
 Plug 'tpope/vim-fugitive' "A git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-repeat' "repeat.vim: enable repeating supported plugin maps with '.'
 Plug 'tpope/vim-surround' "Quoting/parenthesizing made simple.
 Plug 'tyru/open-browser.vim' "Open URI with your favorite browser from your most favorite editor
 Plug 'vim-airline/vim-airline' "Lean & mean status/tabline for vim that's light as air
-Plug 'w0rp/ale' "Asynchronous Lint Engine
 
 call plug#end()
 
@@ -79,18 +82,20 @@ augroup END
 " Colors {{{
 
 syntax on
+set termguicolors
 
 if !has("gui_running")
-  let &t_AB="\e[48;5;%dm"
-  let &t_AF="\e[38;5;%dm"
-  set background=dark
+  " let &t_AB="\e[48;5;%dm"
+  " let &t_AF="\e[38;5;%dm"
+  " set background=dark
   colorscheme blackboard
 else
-  set background=dark
+  " set background=dark
   colorscheme blackboard
 endif
 
 " Color scheme customizations
+" hi CursorLine ctermbg=LightBlue
 hi SpecialKey term=bold cterm=bold ctermbg=0
 hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
 
@@ -185,7 +190,6 @@ set smartcase
 set incsearch
 set showmatch
 set hlsearch
-nnoremap <leader><space> :noh<cr>
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap - -
 vnoremap -- y/<C-R>"<CR>"
@@ -296,7 +300,8 @@ vnoremap ö [
 let mapleader=","
 nnoremap <leader>1 :set number!<CR>
 nnoremap <leader><space> :noh<CR>
-nnoremap <leader>a :Ack
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+nnoremap <leader>a :Ack!
 " Search the WP Codex with WordPress Vim
 nnoremap <leader>co :Wcodexsearch<CR>
 nnoremap <leader>dj :JsDoc<CR>
@@ -393,28 +398,35 @@ set writebackup
 " {{{ Plugin ALE
 "
 let g:airline#extensions#ale#enabled = 1
+
+let g:ale_linters_explicit = 1
+
+" \   'javascript': ['eslint', 'prettier', 'flow-language-server'],
+" \   'json': ['prettier', 'eslint'],
+" \   'jsx': ['stylelint', 'eslint'],
+" \   'scss': ['stylelint', 'eslint'],
+" \   'yaml': ['yamllint', 'prettier'],
 let g:ale_linters = {
-\   'javascript': ['eslint', 'flow-language-server'],
-\   'json': ['prettier', 'eslint'],
-\   'jsx': ['stylelint', 'eslint'],
-\   'scss': ['stylelint', 'eslint'],
 \   'php': ['phpcbf', 'phpcs'],
-\   'yaml': ['yamllint', 'prettier'],
 \}
+
+" \   'javascript': ['prettier', 'eslint'],
+\   'javascript': [],
+" \   'json': ['prettier', 'eslint'],
+" \   'scss': ['prettier'],
+" \   'css': ['prettier'],
+" \   'sass': ['prettier'],
+" \   'yaml': ['prettier'],
 let g:ale_fixers = {
 \   'php': ['phpcbf'],
-\   'javascript': ['prettier', 'eslint'],
-\   'json': ['prettier', 'eslint'],
-\   'scss': ['prettier'],
-\   'sass': ['prettier'],
-\   'yaml': ['prettier'],
 \}
+
 let g:ale_fix_on_save = 1
 let g:ale_linter_aliases = {'jsx': 'css'}
-let g:ale_php_phpcbf_standard = 'WordPress-Core-Syntax'
-let g:ale_php_phpcs_standard = 'WordPress-Core-Syntax'
-let g:ale_php_phpcbf_use_global = 1
-let g:ale_php_phpcs_use_global = 1
+" let g:ale_php_phpcbf_standard = 'PHPNM'
+" let g:ale_php_phpcs_standard = 'PHPNM'
+" let g:ale_php_phpcbf_use_global = 1
+" let g:ale_php_phpcs_use_global = 1
 let g:ale_sign_column_always = 1
 let g:ale_cache_executable_check_failures = 1
 
@@ -440,6 +452,11 @@ let g:airline_right_sep=''
 set updatetime=300
 set shortmess+=c
 
+"For scss files, you may need use:
+autocmd FileType scss setl iskeyword+=@-@
+"in your vimrc for add @ to iskeyword option.
+
+
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
@@ -447,6 +464,13 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -506,8 +530,8 @@ augroup end
 
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+" xmap <leader>a  <Plug>(coc-codeaction-selected)
+" nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current line.
 nmap <leader>ac  <Plug>(coc-codeaction)
@@ -641,6 +665,7 @@ let g:jsdoc_input_description = 1
 let g:jsdoc_return_description = 1
 let g:jsdoc_return_type = 1
 let g:jsdoc_underscore_private = 1
+let g:jsdoc_lehre_path = '/usr/local/lib/node_modules/lehre/bin/lehre'
 
 " }}}
 " Plugin Mustache-Handlebars {{{
@@ -653,16 +678,17 @@ let g:mustache_abbreviations = 1
 let NERDSpaceDelims=1
 
 " }}}
-" Plugin NERDTree {{{
+" Plugin NERDTree / coc-explorer {{{
 
-let g:NERDTreeWinSize = 40
-let NERDTreeIgnore = ['\.pyc$', 'venv', 'egg', 'egg-info/', 'DS_Store']
-let NERDTreeShowHidden=1
+" let g:NERDTreeWinSize = 40
+" let NERDTreeIgnore = ['\.pyc$', 'venv', 'egg', 'egg-info/', 'DS_Store']
+" let NERDTreeShowHidden=1
 " Toggle nerdtree with F10
-noremap <F10> :NERDTreeToggle<CR>
-noremap <F11> :NERDTree<CR>
+" noremap <F10> :NERDTreeToggle<CR>
+nmap <F10> :CocCommand explorer<CR>
+" noremap <F11> :NERDTree<CR>
 " Current file in nerdtree
-noremap <F9> :NERDTreeFind<CR>
+" noremap <F9> :NERDTreeFind<CR>
 
 " }}}
 " Plugin php-doc-modded {{{

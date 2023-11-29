@@ -8,47 +8,44 @@ set encoding=utf-8
 " set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin()
 
-" Plug 'airblade/vim-rooter' "Changes Vim working directory to project root
+
 Plug 'Lokaltog/vim-easymotion' "Easily move around
-Plug 'sainnhe/sonokai'
-Plug 'Rican7/php-doc-modded', "An updated, modified version of the original PDV (phpDocumentor for Vim).
 Plug 'Valloric/MatchTagAlways' "A Vim plugin that always highlights the enclosing html/xml tags
 Plug 'airblade/vim-gitgutter' "Git in the gutter
+Plug 'airblade/vim-rooter' "Changes Vim working directory to project root
 Plug 'austintaylor/vim-commaobject' "Add comma as a Vim object
 Plug 'chaoren/vim-wordmotion' "More useful word motions for Vim
+Plug 'chrisbra/Colorizer' "Colorizes hex codes
 Plug 'christoomey/vim-sort-motion' "Vim mapping for sorting a range of text
 Plug 'christoomey/vim-tmux-navigator' "Seamless navigation between tmux panes and vim splits
 Plug 'christoomey/vim-tmux-runner' "Vim and tmux, sittin' in a tree...
-Plug 'ctrlpvim/ctrlp.vim' "Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
-Plug 'dense-analysis/ale' "Asynchronous Lint Engine
-Plug 'dsawardekar/wordpress.vim', "Vim Plugin for WordPress Development
+Plug 'github/copilot.vim' "GitHub copilot
 Plug 'godlygeek/tabular' "Vim script for text filtering and alignment
-Plug 'heavenshell/vim-jsdoc', { 
-  \ 'for': ['javascript', 'javascript.jsx','typescript'], 
-  \ 'do': 'make install'
-\} "Generate JSDoc to your JavaScript code.
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align' "A Vim alignment plugin
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'lisposter/vim-blackboard' "Color scheme
 Plug 'majutsushi/tagbar' "Vim plugin that displays tags in a window, ordered by scope.
 Plug 'mattn/emmet-vim' "Emmet for vim: http://emmet.io/
-Plug 'mattn/gist-vim' "Vimscript for gist
-Plug 'mileszs/ack.vim' "Vim plugin for the Perl module / CLI script 'ack'
+Plug 'mileszs/ack.vim' "Ack search
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'sainnhe/sonokai'
 Plug 'scrooloose/nerdcommenter' "Vim plugin for intensely orgasmic commenting.
 Plug 'sheerun/vim-polyglot' "A solid language pack for Vim.
 Plug 'spktklr/vim-flip-comparands' "Flip two comparands around a comparison operator in Vim
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' } "Vim bundle for http://styled-components.com based javascript files.
+Plug 'terrastruct/d2-vim'
 Plug 'terryma/vim-expand-region' "Vim plugin that allows you to visually select increasingly larger regions of text using the same key combination
-Plug 'tobyS/vmustache' "Required for pdv plugin
 Plug 'tomtom/tlib_vim' "Some utility functions for VIM
-" Plug 'tommcdo/vim-fubitive' "Required for pdv plugin
 Plug 'tpope/vim-abolish' "Easily search for, substitute, and abbreviate multiple variants of a word
+Plug 'tommcdo/vim-fubitive' "Extend fugitive.vim to support Bitbucket URLs in :Gbrowse.
 Plug 'tpope/vim-fugitive' "A git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-repeat' "repeat.vim: enable repeating supported plugin maps with '.'
 Plug 'tpope/vim-surround' "Quoting/parenthesizing made simple.
 Plug 'tyru/open-browser.vim' "Open URI with your favorite browser from your most favorite editor
 Plug 'vim-airline/vim-airline' "Lean & mean status/tabline for vim that's light as air
-
+Plug 'rebelot/kanagawa.nvim' "A colorscheme for neovim
 call plug#end()
 
 filetype plugin indent on " ensure ftdetect et al work by including this after the Vundle stuff
@@ -72,7 +69,9 @@ augroup configgroup
   " Automatically fmt styles on save
   autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :Stylefmt<CR>
 
-  autocmd BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php files
+  " Disabled due to intelephense not detecting files if they are not just 'php':
+  " autocmd BufRead,BufNewFile *.php set ft=php.wordpress "use wordpress snippets on php files
+  " autocmd BufRead,BufNewFile *.php set ft=php "use wordpress snippets on php files
 
   "set undofile					" Contains undo information so you can undo previous actions even after you close and reopen a file.
 
@@ -88,10 +87,19 @@ if !has("gui_running")
   " let &t_AB="\e[48;5;%dm"
   " let &t_AF="\e[38;5;%dm"
   " set background=dark
-  colorscheme blackboard
+  if !has('nvim')
+    colorscheme blackboard
+  else
+    colorscheme kanagawa-wave
+    " vim.cmd("colorscheme kanagawa-dragon")
+  endif
 else
   " set background=dark
-  colorscheme blackboard
+  if !has('nvim')
+    colorscheme blackboard
+  else
+    colorscheme kanagawa
+  endif
 endif
 
 " Color scheme customizations
@@ -110,7 +118,7 @@ set undolevels=1000  " use many muchos levels of undo
 " Some servers have issues with backup files
 set nobackup
 set nowritebackup
-" 
+"
 set cmdheight=2 " Better display for messages
 set updatetime=300 " Smaller updatetime for CursorHold & CursorHoldI
 set shortmess+=c " don't give |ins-completion-menu| messages.
@@ -119,7 +127,6 @@ set noswapfile
 set linebreak
 set scrolloff=5
 set autochdir        " auto cd to current file folder
-set shell=zsh\ -l
 
 set conceallevel=1 "concealing
 
@@ -190,7 +197,7 @@ set smartcase
 set incsearch
 set showmatch
 set hlsearch
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <C-r> "hy:%s/<C-r>h//g<left><left>
 vnoremap - -
 vnoremap -- y/<C-R>"<CR>"
 
@@ -230,10 +237,16 @@ inoremap <C-v> <Esc>:set paste<CR>"*p:set nopaste<CR>i
 " Undo
 noremap <C-z> :u<cr>
 
+" fzf
+noremap <C-p> :GFiles .<CR>
+noremap <C-b> :Buffers<CR>
+
 " Insert rows without insert mode
 nmap <C-Enter> O<Esc>j
 nmap <S-Enter> O<Esc>j
 nmap <CR> o<Esc>k
+
+nnoremap • :silent norm @q<cr>
 
 nnoremap j gj
 nnoremap k gk
@@ -301,10 +314,11 @@ let mapleader=","
 nnoremap <leader>1 :set number!<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-nnoremap <leader>a :Ack!
+nnoremap <leader>a :Ag
+nnoremap <leader>r :Rg
 " Search the WP Codex with WordPress Vim
 nnoremap <leader>co :Wcodexsearch<CR>
-nnoremap <leader>dj :JsDoc<CR>
+" nnoremap <leader>dj :JsDoc<CR>
 " type :e and pre-populate with dir of current file
 nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <leader>el :!el % --fix<CR>
@@ -318,7 +332,6 @@ nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 " Removes all trailing whitespace in buffer.
 nnoremap <silent><Leader>o :call Preserve("%s/\\s\\+$//e")<CR>
 nnoremap <leader>pp :!phpcbf % --standard=WordPress-Core<CR>
-nnoremap <leader>r :call RunTestFile()<CR>
 "nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR> "sort CSS
 nnoremap <leader>s :mksession<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
@@ -330,7 +343,8 @@ nnoremap <leader>v V`] "reselect the text just pasted
 nnoremap <leader>q :q<CR>
 " Sort SCSS
 "nnoremap <F7> :g#\({\n\)\@<=#.,/\.*[{}]\@=/-1 sort
-vnoremap <Leader>a y:Ack <C-r>=fnameescape(@")<CR><CR>
+vnoremap <Leader>a y:Ag <C-r>=fnameescape(@")<CR><CR>
+vnoremap <Leader>r y:Rg <C-r>=fnameescape(@")<CR><CR>
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 vmap <Leader>y "+y
@@ -355,14 +369,15 @@ nnoremap <leader>w :bp <BAR> bd #<CR>
 " }}}
 " Ack {{{
 
-let g:ag_working_path_mode="r"
+let g:ackprg = 'ag --nogroup --nocolor --column'
+" let g:ag_working_path_mode="r"
 " Use instead of Grep
-if executable('ag')
+" if executable('ag')
   " Note we extract the column as well as the file and line number
-  let g:ackprg = 'ag --vimgrep'
-  set grepprg=ag\ --nogroup\ --nocolor\ --column
-  set grepformat=%f:%l:%c%m
-endif
+  " let g:ackprg = 'ag --vimgrep'
+  " set grepprg=ag\ --nogroup\ --nocolor\ --column
+  " set grepformat=%f:%l:%c%m
+" endif
 
 " }}}
 " PHP {{{
@@ -395,6 +410,37 @@ set directory=.,$TEMP
 set writebackup
 
 " }}}
+" Intelephense {{{
+" if executable('intelephense')
+  " augroup LspPHPIntelephense
+    " au!
+    " au User lsp_setup call lsp#register_server({
+        " \ 'name': 'intelephense',
+        " \ 'cmd': {server_info->[&shell, &shellcmdflag, 'intelephense --stdio']},
+        " \ 'whitelist': ['php'],
+        " \ 'initialization_options': {'storagePath': '/tmp/intelephense'},
+        " \ 'workspace_config': {
+        " \   'intelephense': {
+        " \     'files': {
+        " \       'maxSize': 1000000,
+        " \       'associations': ['*.php', '*.phtml'],
+        " \       'exclude': [],
+        " \     },
+        " \     'completion': {
+        " \       'insertUseDeclaration': v:true,
+        " \       'fullyQualifyGlobalConstantsAndFunctions': v:false,
+        " \       'triggerParameterHints': v:true,
+        " \       'maxItems': 100,
+        " \     },
+        " \     'format': {
+        " \       'enable': v:false
+        " \     },
+        " \   },
+        " \ }
+        " \})
+  " augroup END
+" endif
+" }}}
 " {{{ Plugin ALE
 "
 let g:airline#extensions#ale#enabled = 1
@@ -406,8 +452,9 @@ let g:ale_linters_explicit = 1
 " \   'jsx': ['stylelint', 'eslint'],
 " \   'scss': ['stylelint', 'eslint'],
 " \   'yaml': ['yamllint', 'prettier'],
+" \   'php': ['intelephense', 'phpcs'],
 let g:ale_linters = {
-\   'php': ['phpcbf', 'phpcs'],
+\   'php': ['phpcs'],
 \}
 
 " \   'javascript': ['prettier', 'eslint'],
@@ -420,6 +467,7 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   'php': ['phpcbf'],
 \}
+let g:ale_php_phpcs_standard = '/Users/nm/projects/enervent/phpcs.xml'
 
 let g:ale_fix_on_save = 1
 let g:ale_linter_aliases = {'jsx': 'css'}
@@ -447,6 +495,11 @@ let g:airline_right_sep=''
 " let g:AutoPairsShortcutFastWrap=''
 
 " }}}
+" {{{ Plugin Colorizer
+
+:let g:colorizer_auto_color = 1
+
+" }}}
 " {{{ Plugin Coc
 
 set updatetime=300
@@ -456,14 +509,18 @@ set shortmess+=c
 autocmd FileType scss setl iskeyword+=@-@
 "in your vimrc for add @ to iskeyword option.
 
-
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
+" remap for complete to use tab and <cr>
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <silent><expr> <c-space> coc#refresh()
+
+hi CocSearch ctermfg=12 guifg=#18A3FF
+hi CocMenuSel ctermbg=109 guibg=#13354A
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -609,13 +666,13 @@ if !empty(s:languageservers)
 " }}}
 " Plugin CtrlP {{{
 
-let g:ctrlp_root_markers = ['.ctrlp']
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 'Et'
-let g:ctrlp_working_path_mode = 'r'
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|.next|vagrant|build|wp-includes|wp-admin|vendor|target)|(\.(swp|ico|svn|DS_Store|ctrlp))$'
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" let g:ctrlp_root_markers = ['.ctrlp']
+" let g:ctrlp_show_hidden = 1
+" let g:ctrlp_match_window = 'bottom,order:ttb'
+" let g:ctrlp_switch_buffer = 'Et'
+" let g:ctrlp_working_path_mode = 'r'
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|.next|vagrant|build|wp-includes|wp-admin|vendor|target)|(\.(swp|ico|svn|DS_Store|ctrlp))$'
+" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " }}}
 " Plugin Easy-Align {{{
@@ -652,7 +709,7 @@ let g:user_emmet_settings = {
 " }}}
 " Plugin Gitgutter {{{
 
-let g:gitgutter_max_signs = 50
+let g:gitgutter_max_signs = 500
 
 " }}}
 " Plugin javascript {{{
@@ -693,7 +750,7 @@ nmap <F10> :CocCommand explorer<CR>
 " }}}
 " Plugin php-doc-modded {{{
 
-nnoremap <leader>dp :call PhpDocSingle()<CR>
+" nnoremap <leader>dp :call PhpDocSingle()<CR>
 
 " }}}
 " Plugin Tabularize {{{
@@ -821,7 +878,7 @@ function! IndentHtmlPhp()
 
   execute "normal! :set ft=html\<CR>"
   execute "normal! gg=G"
-  execute "normal! :set ft=php.wordpress\<CR>"
+  execute "normal! :set ft=php\<CR>"
   execute "normal! gg=G"
 
   " Restore the last_search
